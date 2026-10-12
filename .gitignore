@@ -1,0 +1,22 @@
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.env
+.env.*
+!.env.example
+.pytest_cache/
+coverage.xml
+.coverage
+htmlcov/
+
+# Local credentials, agent settings, and files that can contain secrets.
+.aws/
+.ssh/
+.codex/
+.agents/
+*.pem
+*.key
+credentials*.json
+service-account*.json
+*.log
