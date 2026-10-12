@@ -87,6 +87,8 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 Checked items indicate starter work prepared here. Unchecked items require team contribution. Owners and estimates are **unassigned/TBD**; the suggested work areas below are not real team assignments. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
+Status updated October 12, 2026: starter preparation and offline verification are complete. Live API authentication, publication to GitHub, and the team's feature enhancements remain pending. The temporary smoke checks do not complete F5's permanent test-suite task.
+
 ### Starter preparation
 
 - [x] Read both supplied PDFs and record the Option 1 scope.
@@ -94,6 +96,15 @@ Checked items indicate starter work prepared here. Unchecked items require team 
 - [x] Add environment configuration, setup instructions, and `.gitignore`.
 - [x] Separate the baseline into functions with a `main()` entry point.
 - [x] Add this prioritized backlog and a project draft.
+- [x] Fix automatic project-root `.env` loading in both scripts while preserving exported-variable precedence.
+- [x] Verify syntax and basic application behavior with nine temporary offline smoke checks.
+- [x] Pass six additional configuration checks for `.env` loading, environment precedence, and missing configuration.
+- [x] Verify startup reaches the travel-profile prompt with the saved project key, without making a live API request.
+- [x] Verify a clean Git archive contains the required starter files and can run a full mocked route after `.env` setup.
+- [x] Exclude `.env`, virtual environments, caches, local settings, credential files, and logs from Git; scan staged files and committed history for the saved key.
+- [x] Create separate starter commits: exclusions (`30cd003`), application/configuration (`0fcd947`), and setup/backlog documentation (`706a782`).
+- [x] Add the partial project plan and configuration update to the Google Doc's DRAFT tab and verify the edits.
+- [ ] Push the local commits to `origin/main` and verify they appear on GitHub. No push has been performed or confirmed in this chat.
 
 ### Planning and collaboration — P1; suggested area: scrum lead / recorder
 
@@ -101,7 +112,8 @@ Checked items indicate starter work prepared here. Unchecked items require team 
 - [ ] Record team name, members, scrum lead, recorder, and feature owners.
 - [ ] Set a meeting schedule, communication channel, and sprint deadline.
 - [ ] Add an effort estimate and dependency to each selected task; document the budget/API allowance.
-- [ ] Choose the shared GitHub repository and invite collaborators. The local `origin` currently points to `FlimsyOwl12/DEVASC-Project`; the linked `Cocoasaur/devasc-graphhopper-api` repository was used as the lab reference.
+- [x] Configure the local Git repository with `FlimsyOwl12/DEVASC-Project` as `origin`; use `Cocoasaur/devasc-graphhopper-api` as the lab reference.
+- [ ] Confirm the shared repository with the team and invite collaborators.
 - [ ] Create issues for selected features; track owners and status on the team's board.
 
 ### Core enhancements — P1
