@@ -1,69 +1,71 @@
-# DEVASC Project Draft — Option 1
+# DEVASC project draft - Option 1
 
-Status: proposed team plan and partial starter; not a final submission.
+## Our project: Option 1 - GraphHopper REST API
 
-## Project choice and rationale
+We chose Option 1, which is improving the app from the Integrate a REST API in a Python Application lab. This is still our draft. The starter is ready, but the other features are left for our group to work on. Some of the team details is still blank for now.
 
-We selected Option 1 of Project Activity 3: enhance the application developed in the *Integrate a REST API in a Python Application* lab. The instructor guide mentions MapQuest, while our supplied lab and reference repository use GraphHopper. Our proposed implementation therefore uses GraphHopper; the team should confirm this provider choice with the instructor.
+## 1. What the app does and what we want to improve
 
-The application helps a user obtain directions between a starting location and a destination. It uses Python to send REST GET requests over HTTPS, parse JSON responses, and display route distance, estimated duration, and instructions. The lab supports car, bicycle, and walking profile input, subject to the team's API account capabilities.
+The app asks where the user is starting from, where they want to go, and how they will travel. Python sends GET requests through HTTPS to GraphHopper. It reads the JSON reply and shows the distance, estimated travel time, and directions. The project guide mentions MapQuest, but our lab and the linked code use GraphHopper, so that is what we're using for this draft. We still need to confirm this with our instructor.
 
-## Proposed objectives
+We want to let the user choose kilometers or miles and make the output easier to read. We also need to check the API replies, add Python unit tests, and use GitHub for sharing our work. The lab has car, bike, and foot options, but we need to check which ones our GraphHopper account supports.
 
-1. Retain the lab's geocoding and routing workflow as the development baseline.
-2. Add user-selectable metric or imperial units consistently throughout the output.
-3. Improve readability with a structured summary and numbered directions.
-4. Validate input and API responses, and test behavior with Python unit tests.
-5. Use GitHub branches, issues, pull requests, and peer review to document team contributions.
+## 2. Dividing the work
 
-## Partial implementation and remaining work
+We still need to choose our scrum leader, recorder, and who will handle each task. One member could work on the units, another on the output, and the others on API checking and tests. We haven't assign the names yet, so these are just suggested tasks for now.
 
-The starter adapts the linked lab scripts from reference commit `2289d4d`. Baseline routing already existed in that repository. The starter adds API key setup with automatic loading of the project-root `.env` file (exported environment variables take precedence), dependency instructions, importable functions, timeouts, basic request/JSON error handling, and a guard against routing with unresolved locations. It avoids displaying URLs containing credentials and uses the current `profile` parameter.
+## 3. What is ready and what still needs work
 
-The new Option 1 features are pending. Unit selection, structured output, comprehensive response validation, a permanent test suite, and CI/CD have not been completed. Live GraphHopper functionality has not been verified with a team key. The README contains the authoritative task checklist and acceptance criteria.
+The starter comes from the lab code in Cocoasaur/devasc-graphhopper-api, commit 2289d4d. It already had the basic routing. The adapted copy has API key setup, a requirements file, functions we can work on separately, request timeouts, and basic error messages. It also stops the route request if a location was not found. URLs containing the key are not printed. The remaining features still needs work from the other members.
 
-## Proposed backlog and responsibilities
+P1 / F1 - Unit choice: add a choice between metric and imperial units. The choice should apply to the total distance and each direction step. For checking, 1,609.344 meters should show as 1.0 mile. The labels need to match, and q or quit should still close the app from the new prompt.
 
-| Priority / task | Suggested responsibility | Owner | Estimate | Dependencies |
-| --- | --- | --- | --- | --- |
-| P1 / P0: agree scope, provider, repository, and schedule | Scrum lead and recorder | TBD | TBD | Instructor/team agreement |
-| P1 / F1: metric/imperial selection | Input and formatting contributor | TBD | TBD | Approved scope |
-| P1 / F2: summary/table and numbered directions | Presentation contributor | TBD | TBD | Coordinate with F1 |
-| P1 / F4: API response validation | API contributor | TBD | TBD | Baseline |
-| P1 / F5: mocked Python unit tests | QA contributor | TBD | TBD | Feature behavior agreed |
-| P1 / F6: live API checks and evidence | QA and API contributors | TBD | TBD | Own key; core features |
-| P2 / F3: summary/detail choice | Team assignment pending | TBD | TBD | F2 |
-| P2 / F9: automated tests/pipeline for Activity 4 | CI contributor | TBD | TBD | F5 |
-| P3 / F7–F8: export and candidate selection | Team assignment pending | TBD | TBD | Core sprint complete |
+P1 / F2 - Better output: make a simple table or aligned summary, then number the directions. The starting point, destination, profile, distance, and time should be easy to find. If we use colors, the text should still be readable without them.
 
-These are suggested work areas, not assigned team roles. The team must add actual members, owners, estimates, dates, and budget/API allowance before committing to a sprint. No cost or completion percentage has been established.
+P1 / F4 - API reply checking: handle missing or invalid fields in the geocoding and routing reply. The app should show a useful message instead of crashing, and it should not show the API key.
 
-## Collaboration plan
+P1 / F5 - Unit tests: add a permanent unittest suite with mocked HTTP calls. Cover normal routes, failed requests, empty results, invalid data, timeouts, input, quitting, and the new features. These tests should run without internet or a real API key.
 
-The team will select a scrum lead and recorder, agree on meeting times and communication tools, and create issues for each selected task. Each contributor will work on a feature branch and submit a pull request for peer review. The README checklist will track completion against acceptance criteria. Optional features will remain in the backlog for a later iteration.
+P1 / F6 - Live checking: use our own key to try a reachable route for each supported profile and a route that cannot be connected. Save the actual results and any account limits we find, without showing the key.
 
-The current local workspace is configured with `FlimsyOwl12/DEVASC-Project` as its Git remote. `Cocoasaur/devasc-graphhopper-api` is the referenced lab repository. The team must agree on its shared collaboration repository before publishing work.
+For later: F3 can add a choice between a short summary and full directions (P2). F7 can export a route, and F8 can let the user choose between similar place names (P3). The full checklist and the expected results are in README.md.
 
-## Validation plan
+The owners, time estimates, deadline, and budget are still TBD. We need to agree on these as a group before starting the sprint. We also haven't set a completion percentage or API allowance yet.
 
-Use mocked HTTP responses to test successful geocoding/routing, empty results, HTTP errors, timeouts, invalid JSON, malformed fields, unit conversion, output modes, and exit behavior. Live checks will use the team's own API key and reachable locations; evidence must hide credentials. Until these tests and checks are completed, the application is a starter rather than a verified final solution.
+## 4. Working through GitHub
 
-During starter preparation, both scripts passed syntax checks and nine temporary offline smoke checks passed, covering basic startup, mocked API requests and route output, empty/error results, credential redaction, quit handling, and request/JSON failures. This is limited baseline evidence; a committed team test suite, malformed-field coverage, enhancement acceptance tests, and live API evidence remain pending.
+The lab reference is https://github.com/Cocoasaur/devasc-graphhopper-api . Our local origin points to FlimsyOwl12/DEVASC-Project, and the starter has separate commits ready. A push has not been confirmed in this chat. We still need to agree on the shared repo and add the members. Each feature can have its own issue and branch, then another member reviews the pull request. F1 and F2 both change display_route(), so those members should coordinate first.
 
-After fixing `.env` loading, six additional offline checks passed for file configuration, environment-variable precedence, and missing configuration across both scripts. Startup with the saved project key now reaches the application prompt. This verifies configuration loading; live API authentication remains unverified.
+## 5. Starting the app and checking it
 
-## Expected team deliverables
+The main file is labs/devnet-src/graphhopper/graphhopper_parse-json_7.py. The earlier geocoding exercise is graphhopper_parse-json_1.py. Follow README.md for setup and put GRAPHHOPPER_API_KEY in the project's .env file. Both scripts now load that file automatically. If the key is already exported in the terminal, that value is used first. Six extra offline checks passed for this setup, and the saved key now gets the app to its prompt. We still haven't confirmed whether GraphHopper accepts the key.
 
-For Activity 3, prepare a demo-ready enhanced application, project overview presentation and demonstration, prioritized backlog, completed activity rubric, and team activities/reflection answers. For Activity 4, continue selected backlog features and document automated testing/deployment, test cases, GitHub changes, presentation, and rubric. The network automation work in Activity 5 is a separate activity outside this routing draft.
+Both scripts passed syntax checks, and nine temporary offline checks passed using mocked API replies. A clean copy of the committed files also passed a mocked route after .env setup. These checks help us check the starter, but they are not the permanent test suite yet. Live routing, unit selection, better output, full response checking, tests, and CI/CD are still pending.
 
-## Details to complete together
+## 6. What we need for the presentation
 
-- [ ] Team name, members, scrum lead, and recorder.
-- [ ] Confirmed scope, feature owners, effort estimates, schedule, and budget.
-- [ ] Communication plan, meeting records, and shared repository.
-- [ ] Actual enhancement results, test evidence, and demo screenshots.
-- [ ] Presentation, rubric, and reflection based on the team's real work.
+Once the selected features are finished and checked, we need an app we can demo, a project overview presentation, the backlog, the activity rubric, and our reflection answers. We should show what the app can do, what still has limits, the test results, and each member's contribution.
 
-## Sources
+## 7. Team reflection
 
-The supplied *DEVASC Project* instructor guide, the supplied GraphHopper REST API lab, [the reference repository](https://github.com/Cocoasaur/devasc-graphhopper-api), and [GraphHopper documentation](https://docs.graphhopper.com/) informed this draft. An adapted version of this plan was added to the DRAFT tab of the [shared Draft Document](https://docs.google.com/document/d/1Q0knNhliyox7P0iDQgf0t-ZiOJ94uc_3q4Q7jl_njh8/edit) under Activities 3 and 4 on October 12, 2026. Readback verified the inserted content and preservation of the other tab; existing team placeholders remain for the group to complete.
+We will answer the reflection questions based on our actual group work. Each member can add what they learned and the problems they ran into. Our team name, communication tools, meeting schedule, and final roles still need to be filled in together.
+
+## References used
+
+DEVASC Project.pdf, the Integrate a REST API in a Python Application lab, Cocoasaur/devasc-graphhopper-api, and the GraphHopper docs at https://docs.graphhopper.com/ .
+
+## Plan for Activity 4
+
+For Activity 4, we can continue the features left in the backlog and set up automated tests with Jenkins or another CI tool approved by our instructor. F9 needs the permanent tests from F5 first. After a commit, the pipeline should run the offline tests and report any failures.
+
+We will need the code changes on GitHub, our test cases, an explanation of the pipeline, a presentation, and the Activity 4 rubric and reflection. The pipeline and deployment are not done yet. The owners, dates, and actual results still need to be added.
+
+## Still to fill in together
+
+- [ ] Team name, members, scrum leader, and recorder.
+- [ ] Owners, time estimates, deadline, and budget for the chosen tasks.
+- [ ] Meeting times, communication tools, and shared repository.
+- [ ] Actual feature results, tests, and demo screenshots.
+- [ ] Presentation, rubric, and our own reflection answers.
+
+This wording was saved in the DRAFT tab of the [shared document](https://docs.google.com/document/d/1Q0knNhliyox7P0iDQgf0t-ZiOJ94uc_3q4Q7jl_njh8/edit) on October 12, 2026. README.md still has the full task tracker.
