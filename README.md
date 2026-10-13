@@ -87,7 +87,7 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 Checked items indicate starter work prepared here. Unchecked items require team contribution. Owners and estimates are **unassigned/TBD**; the suggested work areas below are not real team assignments. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 12, 2026: starter preparation and offline verification are complete. Live API authentication, publication to GitHub, and the team's feature enhancements remain pending. The temporary smoke checks do not complete F5's permanent test-suite task.
+Status updated October 13, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. Live API authentication and feature development remain pending. Owners and estimates still need team agreement; temporary smoke checks do not complete F5's permanent test-suite task.
 
 ### Starter preparation
 
@@ -104,40 +104,41 @@ Status updated October 12, 2026: starter preparation and offline verification ar
 - [x] Exclude `.env`, virtual environments, caches, local settings, credential files, and logs from Git; scan staged files and committed history for the saved key.
 - [x] Create separate starter commits: exclusions (`30cd003`), application/configuration (`0fcd947`), and setup/backlog documentation (`706a782`).
 - [x] Add the partial project plan and configuration update to the Google Doc's DRAFT tab and verify the edits.
-- [x] Push the local commits to `origin/main` and verify they appear on GitHub. No push has been performed or confirmed in this chat.
+- [x] Publish the starter commits to `origin/main` and verify they appear on GitHub. The starter history is present on the remote main branch.
 
 ### Planning and collaboration — P1; suggested area: scrum lead / recorder
 
-- [ ] **P0** Agree on the customer problem, GraphHopper provider, and sprint scope with the instructor.
-- [ ] Record team name, members, scrum lead, recorder, and feature owners.
-- [ ] Set a meeting schedule, communication channel, and sprint deadline.
-- [ ] Add an effort estimate and dependency to each selected task; document the budget/API allowance.
+- [ ] **P0** Agree on the customer problem, GraphHopper provider, and sprint scope with the instructor. [Issue #2](https://github.com/FlimsyOwl12/DEVASC-Project/issues/2)
+- [ ] Record team name, members, scrum lead, recorder, and feature owners. [Issue #3](https://github.com/FlimsyOwl12/DEVASC-Project/issues/3)
+- [ ] Set a meeting schedule, communication channel, and sprint deadline. [Issue #4](https://github.com/FlimsyOwl12/DEVASC-Project/issues/4)
+- [ ] Add an effort estimate and dependency to each selected task; document the budget/API allowance. [Issue #5](https://github.com/FlimsyOwl12/DEVASC-Project/issues/5)
 - [x] Configure the local Git repository with `FlimsyOwl12/DEVASC-Project` as `origin`; use `Cocoasaur/devasc-graphhopper-api` as the lab reference.
 - [x] Confirm the shared repository with the team and invite collaborators.
-- [ ] Create issues for selected features; track owners and status on the team's board.
+- [x] Create 19 GitHub issues for the unfinished README tasks (issues #2–#20).
+- [ ] Assign issue owners and track status on the team's board. [Issue #6](https://github.com/FlimsyOwl12/DEVASC-Project/issues/6)
 
 ### Core enhancements — P1
 
-- [ ] **F1 — Unit selection** (suggested area: input/formatting): add a metric/imperial prompt; apply the selected unit to the total **and every instruction**. Acceptance: switching units changes labels and values consistently; 1,609.344 m displays as 1.0 mile, and `q` still exits from the new prompt.
-- [ ] **F2 — Clearer terminal output** (suggested area: presentation): add an aligned summary/table and numbered directions; optionally add color with a readable plain-text option. Acceptance: origin, destination, profile, distance, duration, and each step are easy to identify; output works without color.
-- [ ] **F4 — Response validation** (suggested area: API integration): handle missing/invalid coordinate fields, malformed `hits`/`paths`, missing distance/time/instructions, and non-dictionary JSON. Acceptance: representative malformed responses produce a helpful message and return to the prompt without a traceback or printing credentials.
-- [ ] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding.
-- [ ] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence.
+- [ ] **F1 — Unit selection** (suggested area: input/formatting): add a metric/imperial prompt; apply the selected unit to the total **and every instruction**. Acceptance: switching units changes labels and values consistently; 1,609.344 m displays as 1.0 mile, and `q` still exits from the new prompt. [Issue #7](https://github.com/FlimsyOwl12/DEVASC-Project/issues/7)
+- [ ] **F2 — Clearer terminal output** (suggested area: presentation): add an aligned summary/table and numbered directions; optionally add color with a readable plain-text option. Acceptance: origin, destination, profile, distance, duration, and each step are easy to identify; output works without color. [Issue #8](https://github.com/FlimsyOwl12/DEVASC-Project/issues/8)
+- [ ] **F4 — Response validation** (suggested area: API integration): handle missing/invalid coordinate fields, malformed `hits`/`paths`, missing distance/time/instructions, and non-dictionary JSON. Acceptance: representative malformed responses produce a helpful message and return to the prompt without a traceback or printing credentials. [Issue #9](https://github.com/FlimsyOwl12/DEVASC-Project/issues/9)
+- [ ] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding. [Issue #10](https://github.com/FlimsyOwl12/DEVASC-Project/issues/10)
+- [ ] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence. [Issue #11](https://github.com/FlimsyOwl12/DEVASC-Project/issues/11)
 
 ### Follow-up / deferred features
 
-- [ ] **F3 — Summary or detailed output** — P2: let users choose a summary-only view or full directions. Acceptance: summary mode suppresses instructions while keeping route totals.
-- [ ] **F7 — Export route results** — P3: agree on TXT/JSON/CSV, then save a route summary without secrets. Acceptance: exported values match the displayed route and existing files are handled deliberately.
-- [ ] **F8 — Multiple geocoding candidates** — P3: let users choose between ambiguous places instead of always accepting the first hit. Acceptance: the selected candidate's coordinates are used in routing.
+- [ ] **F3 — Summary or detailed output** — P2: let users choose a summary-only view or full directions. Acceptance: summary mode suppresses instructions while keeping route totals. [Issue #12](https://github.com/FlimsyOwl12/DEVASC-Project/issues/12)
+- [ ] **F7 — Export route results** — P3: agree on TXT/JSON/CSV, then save a route summary without secrets. Acceptance: exported values match the displayed route and existing files are handled deliberately. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13)
+- [ ] **F8 — Multiple geocoding candidates** — P3: let users choose between ambiguous places instead of always accepting the first hit. Acceptance: the selected candidate's coordinates are used in routing. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14)
 
 ### Integration, evidence, and submission
 
-- [ ] Review and merge each feature through a pull request, then update this checklist.
-- [ ] Record the final application's features, limitations, and test results.
-- [ ] Prepare the Activity 3 overview presentation and application demonstration.
-- [ ] Complete the supplied team reflection questions and activity rubric using actual team experience.
-- [ ] Review the backlog and explicitly defer unfinished features.
-- [ ] **F9 — Automated checks (Activity 4)** — P2: build a pipeline using Jenkins or an instructor-approved CI tool after F5 exists. Acceptance: a commit triggers offline tests and reports failures; include the test cases, pipeline explanation, GitHub changes, presentation, and Activity 4 rubric.
+- [ ] Review and merge each feature through a pull request, then update this checklist. [Issue #16](https://github.com/FlimsyOwl12/DEVASC-Project/issues/16)
+- [ ] Record the final application's features, limitations, and test results. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17)
+- [ ] Prepare the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
+- [ ] Complete the supplied team reflection questions and activity rubric using actual team experience. [Issue #19](https://github.com/FlimsyOwl12/DEVASC-Project/issues/19)
+- [ ] Review the backlog and explicitly defer unfinished features. [Issue #20](https://github.com/FlimsyOwl12/DEVASC-Project/issues/20)
+- [ ] **F9 — Automated checks (Activity 4)** — P2: build a pipeline using Jenkins or an instructor-approved CI tool after F5 exists. Acceptance: a commit triggers offline tests and reports failures; include the test cases, pipeline explanation, GitHub changes, presentation, and Activity 4 rubric. [Issue #15](https://github.com/FlimsyOwl12/DEVASC-Project/issues/15)
 
 ## Working together
 
