@@ -104,7 +104,7 @@ Status updated October 12, 2026: starter preparation and offline verification ar
 - [x] Exclude `.env`, virtual environments, caches, local settings, credential files, and logs from Git; scan staged files and committed history for the saved key.
 - [x] Create separate starter commits: exclusions (`30cd003`), application/configuration (`0fcd947`), and setup/backlog documentation (`706a782`).
 - [x] Add the partial project plan and configuration update to the Google Doc's DRAFT tab and verify the edits.
-- [ ] Push the local commits to `origin/main` and verify they appear on GitHub. No push has been performed or confirmed in this chat.
+- [x] Push the local commits to `origin/main` and verify they appear on GitHub. No push has been performed or confirmed in this chat.
 
 ### Planning and collaboration — P1; suggested area: scrum lead / recorder
 
