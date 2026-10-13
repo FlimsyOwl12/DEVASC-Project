@@ -5,6 +5,7 @@ import importlib.util
 import io
 import os
 from pathlib import Path
+import re
 import unittest
 from unittest.mock import patch
 
@@ -54,6 +55,47 @@ class UnitSelectionTests(unittest.TestCase):
         with patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": "offline-test-key"}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "imperial", "Origin", "Destination", "q"]), patch.object(app, "geocoding", side_effect=[(200, 1, 2, "Origin"), (200, 3, 4, "Destination")]), patch.object(app, "routing", return_value=path), patch.object(app, "display_route") as display, contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(app.main(), 0)
             display.assert_called_once_with(path, "Origin", "Destination", "car", "imperial")
+
+
+class RoutePresentationTests(unittest.TestCase):
+    def setUp(self):
+        self.path = {"distance": 3218.688, "time": 3661000, "instructions": [
+            {"text": "Turn left", "distance": 1609.344},
+            {"text": "Arrive", "distance": 1609.344},
+        ]}
+
+    def render(self, units="metric"):
+        output = io.StringIO()
+        with contextlib.redirect_stdout(output):
+            app.display_route(self.path, "Origin city", "Destination city", "bike", units)
+        return output.getvalue()
+
+    def test_summary_fields_are_present_and_aligned(self):
+        text = self.render()
+        for label, value in [("Origin", "Origin city"), ("Destination", "Destination city"), ("Profile", "bike"), ("Distance", "3.2 km"), ("Duration", "01:01:01")]:
+            self.assertRegex(text, rf"{label}\s+: {re.escape(value)}")
+        lines = [line for line in text.splitlines() if re.match(r"^(Origin|Destination|Profile|Units|Distance|Duration)\s+:", line)]
+        self.assertEqual(len(lines), 6)
+        self.assertEqual(len({line.index(":") for line in lines}), 1)
+
+    def test_directions_are_numbered_in_order(self):
+        text = self.render()
+        self.assertRegex(text, r"(?m)^\s*1\. Turn left \(1\.6 km\)$")
+        self.assertRegex(text, r"(?m)^\s*2\. Arrive \(1\.6 km\)$")
+
+    def test_plain_text_preserves_imperial_units(self):
+        text = self.render("imperial")
+        self.assertNotIn("\x1b", text)
+        self.assertNotIn("km", text)
+        self.assertIn("2.0 miles", text)
+        self.assertEqual(text.count("1.0 miles"), 2)
+
+    def test_empty_directions_keep_summary(self):
+        self.path["instructions"] = []
+        text = self.render()
+        self.assertIn("Destination city", text)
+        self.assertIn("3.2 km", text)
+        self.assertIn("No direction steps returned.", text)
 
 
 if __name__ == "__main__":

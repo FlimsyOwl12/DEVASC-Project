@@ -75,17 +75,27 @@ def format_distance(meters, units):
 
 
 def display_route(path, origin_name, destination_name, profile, units="metric"):
-    """Keep the original plain-text summary as the team's starting point."""
-    # TODO F2: improve the summary and numbered directions with a table/color.
+    """Print an aligned plain-text summary and numbered direction steps."""
     hours, remainder = divmod(int(path["time"] / 1000), 3600)
     minutes, seconds = divmod(remainder, 60)
+    rows = [
+        ("Origin", origin_name),
+        ("Destination", destination_name),
+        ("Profile", profile),
+        ("Units", units.capitalize()),
+        ("Distance", format_distance(path["distance"], units)),
+        ("Duration", f"{hours:02d}:{minutes:02d}:{seconds:02d}"),
+    ]
+    width = max(len(label) for label, _ in rows)
+    print("ROUTE SUMMARY")
     print("=" * 50)
-    print(f"Directions from {origin_name} to {destination_name} by {profile}")
-    print(f"Distance traveled: {format_distance(path['distance'], units)}")
-    print(f"Trip duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
-    print("=" * 50)
-    for instruction in path["instructions"]:
-        print(f"{instruction['text']} ({format_distance(instruction['distance'], units)})")
+    for label, value in rows:
+        print(f"{label:<{width}} : {value}")
+    print("\nDIRECTIONS")
+    for number, instruction in enumerate(path["instructions"], start=1):
+        print(f"{number:>2}. {instruction['text']} ({format_distance(instruction['distance'], units)})")
+    if not path["instructions"]:
+        print("No direction steps returned.")
     print("=" * 50)
 
 
