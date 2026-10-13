@@ -81,9 +81,12 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `labs/devnet-src/graphhopper/graphhopper_parse-json_7.py` | Working lab baseline; main enhancement target |
 | `display_route()` / `format_distance()` | Selected-unit formatting, aligned summary, and numbered directions |
 | `main()` / `read_input()` / `read_units()` | Travel, unit, and location prompts |
-| `geocoding()` / `routing()` | Validated API responses; broader mocked API coverage remains F5 |
+| `geocoding()` / `routing()` | Validated API responses with mocked API coverage in F5 |
+| `labs/devnet-src/graphhopper/graphhopper_live_verify.py` | Manual F6 live API verification helper that avoids printing keys |
 | `requirements.txt` / `.env.example` | Dependency and configuration setup |
 | `docs/project-draft.md` | Draft project write-up for the shared Draft Document |
+| `docs/live-verification.md` | F6 command, evidence checklist, and redaction guidance |
+| `tests/test_graphhopper_api.py` | Offline F5 tests for mocked HTTP, failures, timeouts, input, and no-key behavior |
 | `tests/test_graphhopper_cli.py` | Offline acceptance tests for F1/F2 |
 | `tests/test_graphhopper_responses.py` | Offline validation and recovery tests for F4 |
 
@@ -91,7 +94,7 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 Checked items indicate starter work prepared here. Unchecked items require team contribution. Owners and estimates are **unassigned/TBD**; the suggested work areas below are not real team assignments. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 13, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, and F4 response validation are complete; remaining features and live API authentication are pending. Owners and estimates still need team agreement; focused acceptance tests do not complete F5's comprehensive API test-suite task.
+Status updated October 14, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F4 response validation, F5 offline unit tests, and F6 live verification are complete. Owners and estimates still need team agreement.
 
 ### Starter preparation
 
@@ -126,8 +129,8 @@ Status updated October 13, 2026: starter preparation, offline verification, GitH
 - [x] **F1 — Unit selection** (suggested area: input/formatting): add a metric/imperial prompt; apply the selected unit to the total **and every instruction**. Acceptance: switching units changes labels and values consistently; 1,609.344 m displays as 1.0 mile, and `q` still exits from the new prompt. [Issue #7](https://github.com/FlimsyOwl12/DEVASC-Project/issues/7)
 - [x] **F2 — Clearer terminal output** (suggested area: presentation): add an aligned summary/table and numbered directions; optionally add color with a readable plain-text option. Acceptance: origin, destination, profile, distance, duration, and each step are easy to identify; output works without color. [Issue #8](https://github.com/FlimsyOwl12/DEVASC-Project/issues/8)
 - [x] **F4 — Response validation** (suggested area: API integration): handle missing/invalid coordinate fields, malformed `hits`/`paths`, missing distance/time/instructions, and non-dictionary JSON. Acceptance: representative malformed responses produce a helpful message and return to the prompt without a traceback or printing credentials. [Issue #9](https://github.com/FlimsyOwl12/DEVASC-Project/issues/9)
-- [ ] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding. [Issue #10](https://github.com/FlimsyOwl12/DEVASC-Project/issues/10)
-- [ ] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence. [Issue #11](https://github.com/FlimsyOwl12/DEVASC-Project/issues/11)
+- [x] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding. [Issue #10](https://github.com/FlimsyOwl12/DEVASC-Project/issues/10)
+- [x] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence. [Issue #11](https://github.com/FlimsyOwl12/DEVASC-Project/issues/11)
 
 ### Follow-up / deferred features
 
@@ -148,11 +151,17 @@ Status updated October 13, 2026: starter preparation, offline verification, GitH
 
 Agree on owners before coding. Use one branch per task (for example, `codex/feature-units`), describe the acceptance criteria in the issue/PR, and ask another member to review it. F1 and F2 both touch `display_route()`; coordinate their sequence to reduce conflicts. F5 follows the behavior agreed for each enhancement; F9 depends on F5. Keep optional F3/F7/F8 in the backlog until the core sprint is complete.
 
-Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. These checks were run during preparation; they are not a committed test suite.
+Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
+
+Run the offline F5/F1/F2/F4 suite without a real API key:
+
+```bash
+python -m unittest discover -s tests -v
+```
 
 Configuration fix verified: six additional offline checks covered `.env` loading from another working directory, exported-key precedence, and missing configuration for both scripts. Startup with the project's saved `.env` key now reaches the travel-profile prompt; no network request was made during that startup check. This confirms key loading, not GraphHopper's acceptance of the key.
 
-No live API run has been verified with a team key. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The 21 committed offline tests cover F1/F2/F4; broader HTTP 401/429, timeout, and other API/input coverage remains F5, and CI remains F9. Run the offline tests with `.venv/bin/python -m unittest discover -s tests -v`. F1 tests cover unit conversion, units applied to every instruction, invalid/blank unit input, quitting the unit prompt without HTTP calls, and passing the selection through the application. F2 tests cover aligned summary fields, numbered directions, plain-text imperial output, and an empty instruction list. F4 tests cover malformed JSON/schema, invalid coordinates and numeric fields, invalid instructions, empty results, redaction, and recovery after bad geocoding/routing. Each selected issue is implemented on its own branch and merged through its own pull request; finished implementation branches are deleted.
+Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The 30 committed offline tests cover F1/F2/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. CI remains F9. Each selected issue is implemented on its own branch and merged through its own pull request; finished implementation branches are deleted.
 
 ## References
 
