@@ -1,7 +1,7 @@
 """Lab baseline for DEVASC Option 1; enhancement tasks are in README.md.
 
 Adapted from Cocoasaur/devasc-graphhopper-api at commit 2289d4d.
-The lab already provides routing; the team's feature enhancements are pending.
+The lab provides routing; completed enhancements are tracked in README.md.
 """
 
 import os
@@ -65,22 +65,27 @@ def routing(origin, destination, profile, key):
     return data["paths"][0]
 
 
-def display_route(path, origin_name, destination_name, profile):
+def format_distance(meters, units):
+    """Convert an API distance in meters to the selected display unit."""
+    if units == "metric":
+        return f"{meters / 1000:.1f} km"
+    if units == "imperial":
+        return f"{meters / 1609.344:.1f} miles"
+    raise ValueError("Choose metric or imperial units.")
+
+
+def display_route(path, origin_name, destination_name, profile, units="metric"):
     """Keep the original plain-text summary as the team's starting point."""
-    # TODO F1: let the user choose metric or imperial units for ALL distances.
     # TODO F2: improve the summary and numbered directions with a table/color.
-    kilometers = path["distance"] / 1000
-    miles = path["distance"] / 1609.344
     hours, remainder = divmod(int(path["time"] / 1000), 3600)
     minutes, seconds = divmod(remainder, 60)
     print("=" * 50)
     print(f"Directions from {origin_name} to {destination_name} by {profile}")
-    print(f"Distance traveled: {miles:.1f} miles / {kilometers:.1f} km")
+    print(f"Distance traveled: {format_distance(path['distance'], units)}")
     print(f"Trip duration: {hours:02d}:{minutes:02d}:{seconds:02d}")
     print("=" * 50)
     for instruction in path["instructions"]:
-        distance = instruction["distance"]
-        print(f"{instruction['text']} ({distance / 1000:.1f} km / {distance / 1609.344:.1f} miles)")
+        print(f"{instruction['text']} ({format_distance(instruction['distance'], units)})")
     print("=" * 50)
 
 
@@ -93,6 +98,17 @@ def read_input(prompt):
         if value:
             return value
         print("Please enter a value, or q to quit.")
+
+
+def read_units():
+    """Ask again for unsupported units, and honor the usual quit keywords."""
+    while True:
+        units = read_input("Distance units (metric or imperial): ")
+        if units is None:
+            return None
+        if units.lower() in ("metric", "imperial"):
+            return units.lower()
+        print("Please choose metric or imperial, or q to quit.")
 
 
 def main():
@@ -112,6 +128,9 @@ def main():
             if profile not in PROFILES:
                 profile = "car"
                 print("Unknown profile. Using car.")
+            units = read_units()
+            if units is None:
+                break
             location = read_input("Starting location: ")
             if location is None:
                 break
@@ -126,7 +145,7 @@ def main():
                 continue
             path = routing(origin, destination, profile, key)
             if path is not None:
-                display_route(path, origin[3], destination[3], profile)
+                display_route(path, origin[3], destination[3], profile, units)
         except requests.RequestException:
             print("The request failed or timed out. Check your connection and try again.")
         except ValueError:
