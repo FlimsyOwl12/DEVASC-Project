@@ -113,13 +113,13 @@ Status updated October 13, 2026: starter preparation, offline verification, GitH
 ### Planning and collaboration — P1; suggested area: scrum lead / recorder
 
 - [ ] **P0** Agree on the customer problem, GraphHopper provider, and sprint scope with the instructor. [Issue #2](https://github.com/FlimsyOwl12/DEVASC-Project/issues/2)
-- [ ] Record team name, members, scrum lead, recorder, and feature owners. [Issue #3](https://github.com/FlimsyOwl12/DEVASC-Project/issues/3)
-- [ ] Set a meeting schedule, communication channel, and sprint deadline. [Issue #4](https://github.com/FlimsyOwl12/DEVASC-Project/issues/4)
-- [ ] Add an effort estimate and dependency to each selected task; document the budget/API allowance. [Issue #5](https://github.com/FlimsyOwl12/DEVASC-Project/issues/5)
+- [x] Record team name, members, scrum lead, recorder, and feature owners. [Issue #3](https://github.com/FlimsyOwl12/DEVASC-Project/issues/3)
+- [x] Set a meeting schedule, communication channel, and sprint deadline. [Issue #4](https://github.com/FlimsyOwl12/DEVASC-Project/issues/4)
+- [x] Add an effort estimate and dependency to each selected task; document the budget/API allowance. [Issue #5](https://github.com/FlimsyOwl12/DEVASC-Project/issues/5)
 - [x] Configure the local Git repository with `FlimsyOwl12/DEVASC-Project` as `origin`; use `Cocoasaur/devasc-graphhopper-api` as the lab reference.
 - [x] Confirm the shared repository with the team and invite collaborators.
 - [x] Create 19 GitHub issues for the unfinished README tasks (issues #2–#20).
-- [ ] Assign issue owners and track status on the team's board. [Issue #6](https://github.com/FlimsyOwl12/DEVASC-Project/issues/6)
+- [x] Assign issue owners and track status on the team's board. [Issue #6](https://github.com/FlimsyOwl12/DEVASC-Project/issues/6)
 
 ### Core enhancements — P1
 
