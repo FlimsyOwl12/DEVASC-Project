@@ -113,7 +113,7 @@ Status updated October 12, 2026: starter preparation and offline verification ar
 - [ ] Set a meeting schedule, communication channel, and sprint deadline.
 - [ ] Add an effort estimate and dependency to each selected task; document the budget/API allowance.
 - [x] Configure the local Git repository with `FlimsyOwl12/DEVASC-Project` as `origin`; use `Cocoasaur/devasc-graphhopper-api` as the lab reference.
-- [ ] Confirm the shared repository with the team and invite collaborators.
+- [x] Confirm the shared repository with the team and invite collaborators.
 - [ ] Create issues for selected features; track owners and status on the team's board.
 
 ### Core enhancements — P1
