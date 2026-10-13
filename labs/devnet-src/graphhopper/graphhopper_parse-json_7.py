@@ -4,6 +4,7 @@ Adapted from Cocoasaur/devasc-graphhopper-api at commit 2289d4d.
 The lab provides routing; completed enhancements are tracked in README.md.
 """
 
+import math
 import os
 from pathlib import Path
 import sys
@@ -19,27 +20,99 @@ PROFILES = ("car", "bike", "foot")
 TIMEOUT_SECONDS = 15
 
 
+class APIResponseError(ValueError):
+    """An API reply cannot safely be used by the directions application."""
+
+
+def redact(text, key):
+    return text.replace(key, "[REDACTED]") if key else text
+
+
+def json_object(response, service):
+    try:
+        data = response.json()
+    except ValueError:
+        raise APIResponseError(f"{service} returned invalid JSON.") from None
+    if not isinstance(data, dict):
+        raise APIResponseError(f"{service} returned an unexpected JSON format.")
+    return data
+
+
+def api_message(data, key, fallback):
+    message = data.get("message")
+    return redact(message, key) if isinstance(message, str) and message.strip() else fallback
+
+
+def number(value, label, minimum, maximum=None):
+    if isinstance(value, bool) or not isinstance(value, (int, float)):
+        raise APIResponseError(f"{label} must be a number.")
+    try:
+        finite = math.isfinite(value)
+    except OverflowError:
+        finite = False
+    if not finite or value < minimum or (maximum is not None and value > maximum):
+        raise APIResponseError(f"{label} is outside the supported range.")
+    return value
+
+
+def validate_path(path, key):
+    if not isinstance(path, dict):
+        raise APIResponseError("Routing returned an invalid path.")
+    distance = number(path.get("distance"), "Routing distance", 0)
+    duration = number(path.get("time"), "Routing duration", 0)
+    steps = path.get("instructions")
+    if not isinstance(steps, list):
+        raise APIResponseError("Routing did not return a valid instruction list.")
+    instructions = []
+    for index, step in enumerate(steps, start=1):
+        if not isinstance(step, dict):
+            raise APIResponseError(f"Routing instruction {index} is invalid.")
+        text = step.get("text")
+        if not isinstance(text, str) or not text.strip():
+            raise APIResponseError(f"Routing instruction {index} has no valid text.")
+        step_distance = number(step.get("distance"), f"Instruction {index} distance", 0)
+        instructions.append({**step, "text": redact(text, key), "distance": step_distance})
+    return {**path, "distance": distance, "time": duration, "instructions": instructions}
+
+
 def geocoding(location, key):
     """Return the lab tuple (HTTP status, latitude, longitude, display name)."""
     url = GEOCODE_URL + urllib.parse.urlencode(
         {"q": location, "limit": 1, "key": key}
     )
     response = requests.get(url, timeout=TIMEOUT_SECONDS)
-    data = response.json()
+    data = json_object(response, "Geocoding")
     if response.status_code != 200:
-        message = str(data.get("message", "Geocoding failed.")).replace(key, "[REDACTED]")
+        message = api_message(data, key, "Geocoding failed.")
         print(f"Geocoding API status: {response.status_code}\nError: {message}")
         return response.status_code, None, None, location
-    if not data.get("hits"):
-        print(f"No location found for: {location}")
+    hits = data.get("hits")
+    if not isinstance(hits, list):
+        raise APIResponseError("Geocoding did not return a valid hits list.")
+    if not hits:
+        print(f"No location found for: {redact(location, key)}")
         return response.status_code, None, None, location
 
-    hit = data["hits"][0]
+    hit = hits[0]
+    if not isinstance(hit, dict) or not isinstance(hit.get("point"), dict):
+        raise APIResponseError("Geocoding returned invalid coordinates.")
+    latitude = number(hit["point"].get("lat"), "Latitude", -90, 90)
+    longitude = number(hit["point"].get("lng"), "Longitude", -180, 180)
+    if not isinstance(hit.get("name"), str) or not hit["name"].strip():
+        raise APIResponseError("Geocoding did not return a valid place name.")
+    for field in ("state", "country"):
+        if hit.get(field) is not None and not isinstance(hit[field], str):
+            raise APIResponseError(f"Geocoding returned an invalid {field} name.")
     name = ", ".join(
-        part for part in (hit["name"], hit.get("state"), hit.get("country")) if part
+        redact(part.strip(), key)
+        for part in (hit["name"], hit.get("state"), hit.get("country"))
+        if part and part.strip()
     )
-    print(f"Location: {name} (type: {hit.get('osm_value', 'location')})")
-    return response.status_code, hit["point"]["lat"], hit["point"]["lng"], name
+    location_type = hit.get("osm_value")
+    if not isinstance(location_type, str):
+        location_type = "location"
+    print(f"Location: {name} (type: {redact(location_type, key)})")
+    return response.status_code, latitude, longitude, name
 
 
 def routing(origin, destination, profile, key):
@@ -53,16 +126,19 @@ def routing(origin, destination, profile, key):
     ]
     url = ROUTE_URL + urllib.parse.urlencode(params)
     response = requests.get(url, timeout=TIMEOUT_SECONDS)
-    data = response.json()
+    data = json_object(response, "Routing")
     print(f"Routing API status: {response.status_code}")
     if response.status_code != 200:
-        message = str(data.get("message", "Could not calculate route.")).replace(key, "[REDACTED]")
+        message = api_message(data, key, "Could not calculate route.")
         print(f"Error: {message}")
         return None
-    if not data.get("paths"):
+    paths = data.get("paths")
+    if not isinstance(paths, list):
+        raise APIResponseError("Routing did not return a valid paths list.")
+    if not paths:
         print("No route was returned between these locations.")
         return None
-    return data["paths"][0]
+    return validate_path(paths[0], key)
 
 
 def format_distance(meters, units):
@@ -156,6 +232,8 @@ def main():
             path = routing(origin, destination, profile, key)
             if path is not None:
                 display_route(path, origin[3], destination[3], profile, units)
+        except APIResponseError as error:
+            print(f"API response error: {error} Please try again.")
         except requests.RequestException:
             print("The request failed or timed out. Check your connection and try again.")
         except ValueError:
