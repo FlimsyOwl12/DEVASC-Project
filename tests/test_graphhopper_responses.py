@@ -129,7 +129,7 @@ class ResponseValidationTests(unittest.TestCase):
 
     def test_bad_geocoding_returns_to_prompt_without_routing(self):
         output = io.StringIO()
-        with patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": KEY}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "metric", "Origin", "q"]), patch.object(app.requests, "get", return_value=response({"hits": [{"name": KEY, "point": []}]})) as get, patch.object(app, "routing") as route, contextlib.redirect_stdout(output):
+        with patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": KEY}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "metric", "detailed", "Origin", "q"]), patch.object(app.requests, "get", return_value=response({"hits": [{"name": KEY, "point": []}]})) as get, patch.object(app, "routing") as route, contextlib.redirect_stdout(output):
             self.assertEqual(app.main(), 0)
             self.assertEqual(get.call_count, 1)
             route.assert_not_called()
@@ -141,7 +141,7 @@ class ResponseValidationTests(unittest.TestCase):
         for bad in [[], {"paths": [None]}, {"paths": [{"distance": -1}]}]:
             output = io.StringIO()
             replies = [response({"hits": [valid_hit()]}), response({"hits": [valid_hit()]}), response(copy.deepcopy(bad))]
-            with self.subTest(reply=bad), patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": KEY}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "metric", "Origin", "Destination", "q"]), patch.object(app.requests, "get", side_effect=replies), contextlib.redirect_stdout(output):
+            with self.subTest(reply=bad), patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": KEY}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "metric", "detailed", "Origin", "Destination", "q"]), patch.object(app.requests, "get", side_effect=replies), contextlib.redirect_stdout(output):
                 self.assertEqual(app.main(), 0)
             self.assertIn("API response error:", output.getvalue())
             self.assertNotIn("ROUTE SUMMARY", output.getvalue())

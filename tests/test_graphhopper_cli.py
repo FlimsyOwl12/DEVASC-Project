@@ -52,9 +52,9 @@ class UnitSelectionTests(unittest.TestCase):
 
     def test_main_passes_the_selected_units_to_output(self):
         path = {"distance": 1609.344, "time": 1000, "instructions": []}
-        with patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": "offline-test-key"}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "imperial", "Origin", "Destination", "q"]), patch.object(app, "geocoding", side_effect=[(200, 1, 2, "Origin"), (200, 3, 4, "Destination")]), patch.object(app, "routing", return_value=path), patch.object(app, "display_route") as display, contextlib.redirect_stdout(io.StringIO()):
+        with patch.dict(os.environ, {"GRAPHHOPPER_API_KEY": "offline-test-key"}), patch.object(app, "load_dotenv"), patch("builtins.input", side_effect=["car", "imperial", "detailed", "Origin", "Destination", "q"]), patch.object(app, "geocoding", side_effect=[(200, 1, 2, "Origin"), (200, 3, 4, "Destination")]), patch.object(app, "routing", return_value=path), patch.object(app, "display_route") as display, contextlib.redirect_stdout(io.StringIO()):
             self.assertEqual(app.main(), 0)
-            display.assert_called_once_with(path, "Origin", "Destination", "car", "imperial")
+            display.assert_called_once_with(path, "Origin", "Destination", "car", "imperial", "detailed")
 
 
 class RoutePresentationTests(unittest.TestCase):

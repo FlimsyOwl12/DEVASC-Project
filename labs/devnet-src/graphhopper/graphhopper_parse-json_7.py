@@ -150,8 +150,10 @@ def format_distance(meters, units):
     raise ValueError("Choose metric or imperial units.")
 
 
-def display_route(path, origin_name, destination_name, profile, units="metric"):
-    """Print an aligned plain-text summary and numbered direction steps."""
+def display_route(path, origin_name, destination_name, profile, units="metric", output_mode="detailed"):
+    """Print the route summary, optionally followed by numbered directions."""
+    if output_mode not in ("summary", "detailed"):
+        raise ValueError("Choose summary or detailed output.")
     hours, remainder = divmod(int(path["time"] / 1000), 3600)
     minutes, seconds = divmod(remainder, 60)
     rows = [
@@ -167,11 +169,12 @@ def display_route(path, origin_name, destination_name, profile, units="metric"):
     print("=" * 50)
     for label, value in rows:
         print(f"{label:<{width}} : {value}")
-    print("\nDIRECTIONS")
-    for number, instruction in enumerate(path["instructions"], start=1):
-        print(f"{number:>2}. {instruction['text']} ({format_distance(instruction['distance'], units)})")
-    if not path["instructions"]:
-        print("No direction steps returned.")
+    if output_mode == "detailed":
+        print("\nDIRECTIONS")
+        for number, instruction in enumerate(path["instructions"], start=1):
+            print(f"{number:>2}. {instruction['text']} ({format_distance(instruction['distance'], units)})")
+        if not path["instructions"]:
+            print("No direction steps returned.")
     print("=" * 50)
 
 
@@ -197,6 +200,17 @@ def read_units():
         print("Please choose metric or imperial, or q to quit.")
 
 
+def read_output_mode():
+    """Choose a route view before making any API requests."""
+    while True:
+        mode = read_input("Output mode (summary or detailed): ")
+        if mode is None:
+            return None
+        if mode.lower() in ("summary", "detailed"):
+            return mode.lower()
+        print("Please choose summary or detailed, or q to quit.")
+
+
 def main():
     load_dotenv(Path(__file__).resolve().parents[3] / ".env", override=False)
     key = os.environ.get("GRAPHHOPPER_API_KEY", "").strip()
@@ -217,6 +231,9 @@ def main():
             units = read_units()
             if units is None:
                 break
+            output_mode = read_output_mode()
+            if output_mode is None:
+                break
             location = read_input("Starting location: ")
             if location is None:
                 break
@@ -231,7 +248,7 @@ def main():
                 continue
             path = routing(origin, destination, profile, key)
             if path is not None:
-                display_route(path, origin[3], destination[3], profile, units)
+                display_route(path, origin[3], destination[3], profile, units, output_mode)
         except APIResponseError as error:
             print(f"API response error: {error} Please try again.")
         except requests.RequestException:
