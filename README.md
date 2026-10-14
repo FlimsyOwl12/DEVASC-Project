@@ -93,9 +93,9 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 ## Team task checklist
 
-Checked items indicate starter work prepared here. Unchecked items require team contribution. Owners and estimates are **unassigned/TBD**; the suggested work areas below are not real team assignments. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
+Checked items indicate completed work; unchecked items remain for the team. Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 14, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, and F6 live verification are complete. Owners and estimates still need team agreement.
+Status updated October 14, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, and F6 live verification are complete. The current offline suite has 38 passing tests. F6 live results are recorded in `docs/live-verification.md`.
 
 ### Starter preparation
 
@@ -125,19 +125,20 @@ Status updated October 14, 2026: starter preparation, offline verification, GitH
 - [x] Create 19 GitHub issues for the unfinished README tasks (issues #2–#20).
 - [x] Assign issue owners and track status on the team's board. [Issue #6](https://github.com/FlimsyOwl12/DEVASC-Project/issues/6)
 
-### Core enhancements — P1
+### Completed development — F1–F6
 
-- [x] **F1 — Unit selection** (suggested area: input/formatting): add a metric/imperial prompt; apply the selected unit to the total **and every instruction**. Acceptance: switching units changes labels and values consistently; 1,609.344 m displays as 1.0 mile, and `q` still exits from the new prompt. [Issue #7](https://github.com/FlimsyOwl12/DEVASC-Project/issues/7)
-- [x] **F2 — Clearer terminal output** (suggested area: presentation): add an aligned summary/table and numbered directions; optionally add color with a readable plain-text option. Acceptance: origin, destination, profile, distance, duration, and each step are easy to identify; output works without color. [Issue #8](https://github.com/FlimsyOwl12/DEVASC-Project/issues/8)
-- [x] **F4 — Response validation** (suggested area: API integration): handle missing/invalid coordinate fields, malformed `hits`/`paths`, missing distance/time/instructions, and non-dictionary JSON. Acceptance: representative malformed responses produce a helpful message and return to the prompt without a traceback or printing credentials. [Issue #9](https://github.com/FlimsyOwl12/DEVASC-Project/issues/9)
-- [x] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding. [Issue #10](https://github.com/FlimsyOwl12/DEVASC-Project/issues/10)
-- [x] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence. [Issue #11](https://github.com/FlimsyOwl12/DEVASC-Project/issues/11)
+- [x] **F1 — Unit selection** (suggested area: input/formatting): add a metric/imperial prompt; apply the selected unit to the total **and every instruction**. Acceptance: switching units changes labels and values consistently; 1,609.344 m displays as 1.0 mile, and `q` still exits from the new prompt. [Issue #7](https://github.com/FlimsyOwl12/DEVASC-Project/issues/7) [Merged PR #21](https://github.com/FlimsyOwl12/DEVASC-Project/pull/21).
+- [x] **F2 — Clearer terminal output** (suggested area: presentation): add an aligned summary/table and numbered directions; optionally add color with a readable plain-text option. Acceptance: origin, destination, profile, distance, duration, and each step are easy to identify; output works without color. [Issue #8](https://github.com/FlimsyOwl12/DEVASC-Project/issues/8) [Merged PR #22](https://github.com/FlimsyOwl12/DEVASC-Project/pull/22).
+- [x] **F3 — Summary or detailed output** — P2: let users choose a summary-only view or full directions. Acceptance: summary mode suppresses instructions while keeping route totals. [Issue #12](https://github.com/FlimsyOwl12/DEVASC-Project/issues/12) [Merged PR #24](https://github.com/FlimsyOwl12/DEVASC-Project/pull/24).
+- [x] **F4 — Response validation** (suggested area: API integration): handle missing/invalid coordinate fields, malformed `hits`/`paths`, missing distance/time/instructions, and non-dictionary JSON. Acceptance: representative malformed responses produce a helpful message and return to the prompt without a traceback or printing credentials. [Issue #9](https://github.com/FlimsyOwl12/DEVASC-Project/issues/9) [Merged PR #23](https://github.com/FlimsyOwl12/DEVASC-Project/pull/23).
+- [x] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding. [Issue #10](https://github.com/FlimsyOwl12/DEVASC-Project/issues/10) Evidence: [mocked API tests](tests/test_graphhopper_api.py) and the 38-test offline suite.
+- [x] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence. [Issue #11](https://github.com/FlimsyOwl12/DEVASC-Project/issues/11) Evidence: [recorded live verification results](docs/live-verification.md).
 
-### Follow-up / deferred features
+### Remaining development — F7–F9
 
-- [x] **F3 — Summary or detailed output** — P2: let users choose a summary-only view or full directions. Acceptance: summary mode suppresses instructions while keeping route totals. [Issue #12](https://github.com/FlimsyOwl12/DEVASC-Project/issues/12)
 - [ ] **F7 — Export route results** — P3: agree on TXT/JSON/CSV, then save a route summary without secrets. Acceptance: exported values match the displayed route and existing files are handled deliberately. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13)
 - [ ] **F8 — Multiple geocoding candidates** — P3: let users choose between ambiguous places instead of always accepting the first hit. Acceptance: the selected candidate's coordinates are used in routing. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14)
+- [ ] **F9 — Automated checks (Activity 4)** — P2: build a pipeline using Jenkins or an instructor-approved CI tool after F5 exists. Acceptance: a commit triggers offline tests and reports failures; include the test cases, pipeline explanation, GitHub changes, presentation, and Activity 4 rubric. [Issue #15](https://github.com/FlimsyOwl12/DEVASC-Project/issues/15)
 
 ### Integration, evidence, and submission
 
@@ -146,11 +147,14 @@ Status updated October 14, 2026: starter preparation, offline verification, GitH
 - [ ] Prepare the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
 - [ ] Complete the supplied team reflection questions and activity rubric using actual team experience. [Issue #19](https://github.com/FlimsyOwl12/DEVASC-Project/issues/19)
 - [ ] Review the backlog and explicitly defer unfinished features. [Issue #20](https://github.com/FlimsyOwl12/DEVASC-Project/issues/20)
-- [ ] **F9 — Automated checks (Activity 4)** — P2: build a pipeline using Jenkins or an instructor-approved CI tool after F5 exists. Acceptance: a commit triggers offline tests and reports failures; include the test cases, pipeline explanation, GitHub changes, presentation, and Activity 4 rubric. [Issue #15](https://github.com/FlimsyOwl12/DEVASC-Project/issues/15)
+
+GitHub status follow-up: issues #3–#6 and #10–#11 are still open although their README entries are checked. Review their acceptance criteria and recorded evidence before closing them.
 
 ## Working together
 
-Agree on owners before coding. Use one branch per task (for example, `codex/feature-units`), describe the acceptance criteria in the issue/PR, and ask another member to review it. F1 and F2 both touch `display_route()`; coordinate their sequence to reduce conflicts. F5 follows the behavior agreed for each enhancement; F9 depends on F5. Keep optional F3/F7/F8 in the backlog until the core sprint is complete.
+Agree on owners before coding. Use one separate branch per task with a short descriptive name, such as `f7-export-results` or `docs-readme-checklist`. Keep commits scoped to the task. Follow **branch → implementation → tests → PR → merge → delete the finished branch locally and on GitHub**. Describe the acceptance criteria and test evidence in the PR, and ask another member to review it.
+
+F1–F6 are complete. F7 and F8 remain optional/deferred work; F9 is the remaining Activity 4 automation task and builds on the completed F5 suite. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
 
 Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
 
