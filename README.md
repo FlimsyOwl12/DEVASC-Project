@@ -18,9 +18,9 @@ Included from the lab: geocoding, car/bike/foot input, routing requests, distanc
 
 Prepared for collaboration: environment-based API key configuration, dependency/setup files, importable functions, request timeouts, basic request/JSON error messages, and prevention of routing with missing coordinates. API request URLs containing the key are not printed. Requests use `profile` in place of the lab's `vehicle`, following [GraphHopper's migration guidance](https://www.graphhopper.com/blog/2021/12/15/new-and-customizable-routing-profiles/).
 
-**Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text.
+**Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text.
 
-**Pending:** summary/detail selection, optional exports, multiple geocoding candidates, comprehensive API tests, CI/CD, live API verification, and final team deliverables. No claim of final completion is made.
+**Pending:** optional exports, multiple geocoding candidates, CI/CD, and final team deliverables. No claim of final completion is made.
 
 ## Setup and run
 
@@ -59,7 +59,7 @@ python labs/devnet-src/graphhopper/graphhopper_parse-json_7.py
 
 The [python-dotenv loader](https://bbc2.github.io/python-dotenv/) reads `.env` without executing it as a shell script. `.env.example` remains a template and is not loaded directly.
 
-Enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, followed by the two locations. The selected unit applies to the route total and every direction step. Unknown units ask again. An unknown nonblank profile falls back to `car`; blank input asks again. Enter `q` or `quit` at any prompt to exit. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
+Enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. Summary mode keeps origin, destination, profile, units, distance, and duration; detailed mode also shows numbered directions. The mode is chosen again for each route. Unsupported modes ask again, and `q`/`quit` exits from the mode prompt before any API requests. The selected unit applies to the route total and every direction step. Unknown units ask again. An unknown nonblank profile falls back to `car`; blank input asks again. Enter `q` or `quit` at any prompt to exit. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
 
 The earlier geocoding-only exercise is also included:
 
@@ -80,7 +80,7 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `labs/devnet-src/graphhopper/graphhopper_parse-json_1.py` | Initial geocoding exercise |
 | `labs/devnet-src/graphhopper/graphhopper_parse-json_7.py` | Working lab baseline; main enhancement target |
 | `display_route()` / `format_distance()` | Selected-unit formatting, aligned summary, and numbered directions |
-| `main()` / `read_input()` / `read_units()` | Travel, unit, and location prompts |
+| `main()` / `read_input()` / `read_units()` / `read_output_mode()` | Travel, unit, output-mode, and location prompts |
 | `geocoding()` / `routing()` | Validated API responses with mocked API coverage in F5 |
 | `labs/devnet-src/graphhopper/graphhopper_live_verify.py` | Manual F6 live API verification helper that avoids printing keys |
 | `requirements.txt` / `.env.example` | Dependency and configuration setup |
@@ -88,13 +88,14 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `docs/live-verification.md` | F6 command, evidence checklist, and redaction guidance |
 | `tests/test_graphhopper_api.py` | Offline F5 tests for mocked HTTP, failures, timeouts, input, and no-key behavior |
 | `tests/test_graphhopper_cli.py` | Offline acceptance tests for F1/F2 |
+| `tests/test_graphhopper_output_modes.py` | Offline F3 tests for output modes, prompt handling, and mocked routes |
 | `tests/test_graphhopper_responses.py` | Offline validation and recovery tests for F4 |
 
 ## Team task checklist
 
 Checked items indicate starter work prepared here. Unchecked items require team contribution. Owners and estimates are **unassigned/TBD**; the suggested work areas below are not real team assignments. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 14, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F4 response validation, F5 offline unit tests, and F6 live verification are complete. Owners and estimates still need team agreement.
+Status updated October 14, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, and F6 live verification are complete. Owners and estimates still need team agreement.
 
 ### Starter preparation
 
@@ -134,7 +135,7 @@ Status updated October 14, 2026: starter preparation, offline verification, GitH
 
 ### Follow-up / deferred features
 
-- [ ] **F3 — Summary or detailed output** — P2: let users choose a summary-only view or full directions. Acceptance: summary mode suppresses instructions while keeping route totals. [Issue #12](https://github.com/FlimsyOwl12/DEVASC-Project/issues/12)
+- [x] **F3 — Summary or detailed output** — P2: let users choose a summary-only view or full directions. Acceptance: summary mode suppresses instructions while keeping route totals. [Issue #12](https://github.com/FlimsyOwl12/DEVASC-Project/issues/12)
 - [ ] **F7 — Export route results** — P3: agree on TXT/JSON/CSV, then save a route summary without secrets. Acceptance: exported values match the displayed route and existing files are handled deliberately. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13)
 - [ ] **F8 — Multiple geocoding candidates** — P3: let users choose between ambiguous places instead of always accepting the first hit. Acceptance: the selected candidate's coordinates are used in routing. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14)
 
@@ -153,7 +154,7 @@ Agree on owners before coding. Use one branch per task (for example, `codex/feat
 
 Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
 
-Run the offline F5/F1/F2/F4 suite without a real API key:
+Run the offline F1/F2/F3/F4/F5 suite without a real API key:
 
 ```bash
 python -m unittest discover -s tests -v
@@ -161,7 +162,7 @@ python -m unittest discover -s tests -v
 
 Configuration fix verified: six additional offline checks covered `.env` loading from another working directory, exported-key precedence, and missing configuration for both scripts. Startup with the project's saved `.env` key now reaches the travel-profile prompt; no network request was made during that startup check. This confirms key loading, not GraphHopper's acceptance of the key.
 
-Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The 30 committed offline tests cover F1/F2/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. CI remains F9. Each selected issue is implemented on its own branch and merged through its own pull request; finished implementation branches are deleted.
+Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The 38 committed offline tests cover F1/F2/F3/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. F3 coverage includes summary totals without directions, numbered detailed output in both units, mode validation, quitting without HTTP requests, and changing modes between mocked routes. The current 38-test suite passed with real HTTP blocked and .env loading disabled. CI remains F9. Each selected issue is implemented on its own branch and merged through its own pull request; finished implementation branches are deleted.
 
 ## References
 
