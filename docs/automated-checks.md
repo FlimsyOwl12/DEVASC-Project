@@ -38,6 +38,10 @@ Open [Actions](https://github.com/FlimsyOwl12/DEVASC-Project/actions) and select
 
 Record the actual PR URL, commit SHA, successful run URL, date, and test results in the team's Activity 4 evidence. To demonstrate failure handling, use a disposable team branch with a deliberately failing test and link its failed run, then remove the test/branch. Do not add a real key or run the live helper for this demonstration.
 
+### Recorded GitHub evidence — October 15, 2026
+
+[PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), branch `f9-automated-checks`, added the implementation in three scoped commits: `55b0237` (runner/tests), `4dea5cd` (pipelines), and `dc8e491` (documentation). At commit `dc8e491205902554cbf3377dcd8d27a732926a69`, both the [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385) and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) succeeded. Each ran 42 tests on Python 3.10 and Python 3.14 and uploaded its test report. The workflow also passed actionlint v1.7.12 validation. Jenkins execution is still pending; no deployment or instructor approval is claimed.
+
 ## Set up Jenkins for the course
 
 No Jenkins server was available during implementation, so execution on Jenkins and webhook delivery remain to be verified by the team.
@@ -55,7 +59,7 @@ No Jenkins server was available during implementation, so execution on Jenkins a
 - [x] Document the test cases, pipeline stages, and GitHub evidence collection.
 - [ ] Confirm the demonstration tool/environment with the instructor.
 - [ ] Configure Jenkins checkout/webhook and record actual successful/failed builds if Jenkins is required.
-- [ ] Record the PR and actual GitHub Actions results after publication.
+- [x] Record the PR and actual GitHub Actions results after publication (links above).
 - [ ] Prepare the Activity 4 presentation with actual evidence.
 - [ ] Complete the rubric and reflection using the team's own experience.
 

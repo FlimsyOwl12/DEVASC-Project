@@ -148,7 +148,7 @@ Status updated October 15, 2026: starter preparation, offline verification, GitH
   - [x] Implement GitHub Actions for pushes/PRs and supply the course Jenkinsfile.
   - [x] Run offline tests without a real key; block network calls, fail on test errors/empty discovery, and retain reports.
   - [x] Document test cases, pipeline functionality, and evidence collection.
-  - [ ] Verify published GitHub checks and record the PR/run evidence.
+  - [x] Verify published GitHub checks: [PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385), and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) passed 42 tests on both Python 3.10 and 3.14.
   - [ ] Confirm the CI demonstration environment with the instructor; configure and verify Jenkins if required.
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
