@@ -50,7 +50,7 @@ class MockedHTTPTests(unittest.TestCase):
         self.assertEqual(result, (200, 14.5995, 120.9842, "Manila, Metro Manila, Philippines"))
         url = get.call_args.args[0]
         self.assertIn("q=Manila", url)
-        self.assertIn("limit=1", url)
+        self.assertIn(f"limit={app.DEFAULT_GEOCODE_LIMIT}", url)
         self.assertIn("key=" + KEY, url)
         self.assertEqual(get.call_args.kwargs["timeout"], app.TIMEOUT_SECONDS)
 
