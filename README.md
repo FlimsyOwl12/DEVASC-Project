@@ -230,7 +230,8 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 - [x] Implement WebEx Messages API delivery and notification-only retry without reapplying device changes.
 - [x] Verify the no-account simulation, 31 offline cases, pyang model validation and real SSH/NETCONF against a loopback-only simulated device.
 - [x] Add separate Python 3.10/3.14 protocol/model CI jobs; the shared offline suite contains 100 tests.
-- [ ] Have another team member review and merge the Activity 5 PR, then delete its implementation branch.
+- [x] Publish four scoped implementation/test/CI/documentation commits and open [PR #33](https://github.com/FlimsyOwl12/DEVASC-Project/pull/33). [Python 3.10/3.14 checks passed](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39141681773), including all 100 tests and the protocol/model jobs.
+- [ ] Have another team member review and merge PR #33, then delete its implementation branch.
 - [ ] Supply an authorized IOS XE lab, verify the actual current/new configuration and retain evidence of all three changes.
 - [ ] Obtain WebEx room/API access and retain a delivered message reference, or record the instructor's explicit deferral.
 - [ ] Rehearse/present Activity 5 and complete the actual class rubric using the live results.

@@ -19,7 +19,7 @@ Earlier verified main revision: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474` (merg
 
 The `activity5-netconf-automation` branch passes **100 offline tests** (69 original plus 31 Activity 5 cases). The no-account example completes preview, edit, readback and a simulated notification. The request model passes pyang validation. A separate fixture completes real SSH/NETCONF lock, read, edit, readback, unlock and close using ncclient and a pinned ephemeral key on loopback.
 
-These are local tests with a simulated device and notification. No real IOS XE configuration or WebEx message was verified. The user has no room/API access yet. See the [Activity 5 guide](activity5-implementation.md) for reproducible commands and the live-evidence checklist. New GitHub check results should be linked after the branch is published; the historical Jenkins results below remain 69-test evidence.
+These are local tests with a simulated device and notification. No real IOS XE configuration or WebEx message was verified. The user has no room/API access yet. See the [Activity 5 guide](activity5-implementation.md) for reproducible commands and the live-evidence checklist. At implementation head `20cefbb`, the [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39141681773) and [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39141677148) passed all four jobs. The PR run completed 100 tests in 0.882 seconds on Python 3.10 and 0.911 seconds on Python 3.14; both protocol/model jobs passed. [PR #33](https://github.com/FlimsyOwl12/DEVASC-Project/pull/33) remains open for team review. The historical Jenkins results above remain 69-test evidence.
 
 ## Current test distribution
 

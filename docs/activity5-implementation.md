@@ -108,6 +108,8 @@ python scripts/verify_activity5_transport.py
 
 The protocol check opens only a loopback socket; it is separate from the network-blocked unittest runner. It needs no device credentials and keeps its generated SSH key in memory.
 
+Published in [PR #33](https://github.com/FlimsyOwl12/DEVASC-Project/pull/33). The [verified PR run at implementation head 20cefbb](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39141681773) passed the 100-test suite and protocol/model checks on Python 3.10 and 3.14.
+
 ## Evidence still needed from the live environment
 
 - [x] Application objectives and code, request model and documented native mapping.
