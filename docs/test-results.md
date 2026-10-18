@@ -1,6 +1,6 @@
 # Verification record — October 18, 2026
 
-Current verified main revision: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474` (merged PRs #30/#28). The earlier F7/F8 verification used `9238164`; both records are retained below. This file records observed results, rather than committing generated console logs or credentials.
+Earlier verified main revision: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474` (merged PRs #30/#28). The earlier F7/F8 verification used `9238164`; both records are retained below. This file records observed results, rather than committing generated console logs or credentials.
 
 | Check | Observed result | Evidence |
 | --- | --- | --- |
@@ -15,7 +15,13 @@ Current verified main revision: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474` (merg
 | Jenkins merged-main verification | Original #5 at `c6d34d5`: 69 tests in 0.486 seconds, SUCCESS; report archived | [Build #5](http://127.0.0.1:8080/job/DEVASC-GraphHopper/5/) |
 | Current-main GitHub Actions | Python 3.10/3.14 passed after PRs #30/#28 merged | [Run 39132132376](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39132132376) |
 
-## Test distribution
+## Activity 5 branch verification — October 18
+
+The `activity5-netconf-automation` branch passes **100 offline tests** (69 original plus 31 Activity 5 cases). The no-account example completes preview, edit, readback and a simulated notification. The request model passes pyang validation. A separate fixture completes real SSH/NETCONF lock, read, edit, readback, unlock and close using ncclient and a pinned ephemeral key on loopback.
+
+These are local tests with a simulated device and notification. No real IOS XE configuration or WebEx message was verified. The user has no room/API access yet. See the [Activity 5 guide](activity5-implementation.md) for reproducible commands and the live-evidence checklist. New GitHub check results should be linked after the branch is published; the historical Jenkins results below remain 69-test evidence.
+
+## Current test distribution
 
 | File | Tests |
 | --- | ---: |
@@ -27,7 +33,8 @@ Current verified main revision: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474` (merg
 | `test_graphhopper_geocoding_candidates.py` | 11 |
 | `test_graphhopper_history_menu.py` | 6 |
 | `test_offline_runner.py` | 4 |
-| **Total** | **69** |
+| `test_network_automation.py` | 31 |
+| **Total** | **100** |
 
 The export/candidate/history tests preserve previous F1–F5 coverage. The candidate regression checks that identical names show distinct coordinates, selected coordinates reach routing, and the dummy key stays out of displayed text. Runner fixtures verify that failure and empty discovery return a failing exit code and that an unmocked HTTP call is blocked.
 
