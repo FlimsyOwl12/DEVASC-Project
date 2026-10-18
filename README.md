@@ -205,6 +205,18 @@ Configuration fix verified: six additional offline checks covered `.env` loading
 
 Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The application tests cover F1/F2/F3/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. F3 coverage includes summary totals without directions, numbered detailed output in both units, mode validation, quitting without HTTP requests, and changing modes between mocked routes. The four F9 runner regression tests verify isolation, failure reporting, blocked HTTP, and empty discovery. F7/F8 export, candidate-selection, and history tests bring the current suite to 69 tests, including the same-name candidate regression. See `docs/automated-checks.md` for CI setup and remaining Activity 4 work. F7 and F8 share PR #27. Keep commits scoped and delete finished implementation branches after merging.
 
+## Presentation and reflection preparation
+
+- [x] Prepare the [editable slides and PDF](docs/presentation/README.md), speaker notes, and [demo guide](docs/demo-guide.md) for Activities 3 and 4.
+- [x] Add `python scripts/demo_offline.py`, a synthetic replay of candidate selection, imperial output, exports and session history, with network calls blocked.
+- [x] Prepare the [reflection/rubric evidence worksheet](docs/team-reflection.md) using recorded roles and verified technical facts.
+- [ ] Each member confirms their own contribution, main challenge and lesson learned.
+- [ ] Obtain and complete the official student Activity 3/4 questions and rubrics; the supplied instructor guide does not include their full text.
+- [ ] Add actual required Jenkins build/trigger evidence to the presentation.
+- [ ] Rehearse and deliver the presentation with the team; record the actual presentation date.
+
+Issues #18/#19 remain open until these team-dependent steps are complete. Prepared materials do not imply a completed presentation or personal reflection.
+
 ## References
 
 - Supplied `DEVASC Project.pdf`: Activity 3 Option 1 and Activity 4 deliverables.
