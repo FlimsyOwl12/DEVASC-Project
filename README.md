@@ -18,11 +18,11 @@ Included from the lab: geocoding, car/bike/foot input, routing requests, distanc
 
 Prepared for collaboration: environment-based API key configuration, dependency/setup files, importable functions, request timeouts, basic request/JSON error messages, and prevention of routing with missing coordinates. API request URLs containing the key are not printed. Requests use `profile` in place of the lab's `vehicle`, following [GraphHopper's migration guidance](https://www.graphhopper.com/blog/2021/12/15/new-and-customizable-routing-profiles/).
 
-**Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text.
+**Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text. F7 adds local route exports in TXT, JSON, and CSV formats with sanitized filenames and duplicate protection. F8 adds interactive selection from up to five validated geocoding candidates. The CLI also provides a main navigation menu and session route history (storing up to 10 routes for offline viewing and exporting).
 
 **F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Instructor approval, Jenkins environment verification, and the team presentation/rubric remain pending.
 
-**Pending:** optional exports, multiple geocoding candidates, and final team deliverables. No claim of final completion is made.
+**Pending:** final team deliverables. No claim of final completion is made.
 
 ## Setup and run
 
@@ -61,7 +61,7 @@ python labs/devnet-src/graphhopper/graphhopper_parse-json_7.py
 
 The [python-dotenv loader](https://bbc2.github.io/python-dotenv/) reads `.env` without executing it as a shell script. `.env.example` remains a template and is not loaded directly.
 
-Enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. Summary mode keeps origin, destination, profile, units, distance, and duration; detailed mode also shows numbered directions. The mode is chosen again for each route. Unsupported modes ask again, and `q`/`quit` exits from the mode prompt before any API requests. The selected unit applies to the route total and every direction step. Unknown units ask again. An unknown nonblank profile falls back to `car`; blank input asks again. Enter `q` or `quit` at any prompt to exit. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
+Use the main menu (`1. Find a Route`, `2. View Route History`, `3. Export Previous Route`, `4. Exit`) to navigate. When finding a route, enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. When multiple geocoding candidates match a location, choose from the numbered candidate list (`1-5`), which shows latitude and longitude so same-name places can be distinguished, or use `R` to search again or `Q` to quit. After displaying a route, optionally export it to `exports/` as TXT, JSON, or CSV, or view/export any of the last 10 session routes from the main menu without additional API requests. Enter `q` or `quit` at any prompt to exit. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
 
 The earlier geocoding-only exercise is also included:
 
@@ -82,8 +82,9 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `labs/devnet-src/graphhopper/graphhopper_parse-json_1.py` | Initial geocoding exercise |
 | `labs/devnet-src/graphhopper/graphhopper_parse-json_7.py` | Working lab baseline; main enhancement target |
 | `display_route()` / `format_distance()` | Selected-unit formatting, aligned summary, and numbered directions |
-| `main()` / `read_input()` / `read_units()` / `read_output_mode()` | Travel, unit, output-mode, and location prompts |
-| `geocoding()` / `routing()` | Validated API responses with mocked API coverage in F5 |
+| `main()` / `find_route_workflow()` / `RouteHistory` | Main menu navigation, route workflow, and 10-route session history |
+| `geocoding()` / `extract_geocode_candidates()` / `routing()` | F4/F8 validated multi-candidate geocoding and routing |
+| `export_route_txt()` / `export_route_json()` / `export_route_csv()` | F7 TXT, JSON, and CSV export functions with path safety |
 | `labs/devnet-src/graphhopper/graphhopper_live_verify.py` | Manual F6 live API verification helper that avoids printing keys |
 | `requirements.txt` / `.env.example` | Dependency and configuration setup |
 | `scripts/run_offline_tests.py` | Shared credential-free, network-blocked CI test command |
@@ -96,12 +97,15 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `tests/test_graphhopper_cli.py` | Offline acceptance tests for F1/F2 |
 | `tests/test_graphhopper_output_modes.py` | Offline F3 tests for output modes, prompt handling, and mocked routes |
 | `tests/test_graphhopper_responses.py` | Offline validation and recovery tests for F4 |
+| `tests/test_graphhopper_exports.py` | Offline F7 tests for TXT/JSON/CSV exports, path safety, and duplicate handling |
+| `tests/test_graphhopper_geocoding_candidates.py` | Offline F8 tests for multi-candidate selection, retry, quit, and routing integration |
+| `tests/test_graphhopper_history_menu.py` | Offline tests for main menu navigation and 10-route session history |
 
 ## Team task checklist
 
-Checked items indicate completed work; unchecked items remain for the team. Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
+Checked items indicate completed work; unchecked items remain for the team. F7/F8 implementation is complete on this branch, while team review and merge remain pending in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27). Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 15, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, and F6 live verification are complete. F9 pipeline code and documentation are implemented; instructor/environment verification and the Activity 4 presentation/rubric remain open. The current offline suite has 42 tests. F6 live results are recorded in `docs/live-verification.md`.
+Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; instructor/environment verification and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
 
 ### Starter preparation
 
@@ -140,10 +144,27 @@ Status updated October 15, 2026: starter preparation, offline verification, GitH
 - [x] **F5 — Python unit tests** (suggested area: QA): create tests with `unittest` and mock HTTP calls. Cover successful geocoding/routing, no hits/no paths, 401/429/errors, timeouts, malformed JSON/schema, blank input/quit, and F1/F2 acceptance cases. Acceptance: tests run offline without a real key, including a check that routing is skipped after unsuccessful geocoding. [Issue #10](https://github.com/FlimsyOwl12/DEVASC-Project/issues/10) Evidence: [mocked API tests](tests/test_graphhopper_api.py) and the offline suite.
 - [x] **F6 — Live verification** (suggested area: QA + API integration): use the team's own key to verify one reachable route for each available profile and a route that cannot be connected. Acceptance: record actual inputs/results and any account limitations, with no key visible in evidence. [Issue #11](https://github.com/FlimsyOwl12/DEVASC-Project/issues/11) Evidence: [recorded live verification results](docs/live-verification.md).
 
-### Remaining development — F7–F9
+### Development status — F7/F8
 
-- [ ] **F7 — Export route results** — P3: agree on TXT/JSON/CSV, then save a route summary without secrets. Acceptance: exported values match the displayed route and existing files are handled deliberately. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13)
-- [ ] **F8 — Multiple geocoding candidates** — P3: let users choose between ambiguous places instead of always accepting the first hit. Acceptance: the selected candidate's coordinates are used in routing. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14)
+- [x] **F7 — Export route results** — P3: implementation complete; review and merge pending. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
+  - [x] Export route summaries and directions in TXT, JSON, and CSV with the selected units and no API key.
+  - [x] Validate filenames and paths; prevent silent overwrites and support choosing another filename or automatic renaming.
+  - [x] Verify exports, formatting, duplicate handling, filesystem errors, and key redaction with offline tests.
+- [x] **F8 — Multiple geocoding candidates** — P3: implementation complete; review and merge pending. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
+  - [x] Show up to five validated candidates and use the selected candidate's coordinates in routing.
+  - [x] Handle invalid choices, search retry, and quitting; skip selection when only one valid candidate exists.
+  - [x] Display latitude and longitude so candidates with identical names can be distinguished.
+  - [x] Add a regression test for same-name choices, selected routing coordinates, and key redaction.
+
+### Additional implemented improvements
+
+- [x] Add a main navigation menu and keep the last 10 successful routes in session history.
+- [x] View or export stored routes without additional API requests.
+- [x] Remove all nine tracked Python cache files; retain the existing ignore rules.
+- [x] Pass all 69 offline tests locally and from a clean Git archive; pass Python 3.10 and 3.14 GitHub checks. [Verified PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39119946421).
+
+### Activity 4 — F9
+
 - [ ] **F9 — Automated checks (Activity 4)** — P2: pipeline implementation is ready; the complete Activity 4 acceptance checklist remains open. [Issue #15](https://github.com/FlimsyOwl12/DEVASC-Project/issues/15) [Pipeline setup and test plan](docs/automated-checks.md).
   - [x] Implement GitHub Actions for pushes/PRs and supply the course Jenkinsfile.
   - [x] Run offline tests without a real key; block network calls, fail on test errors/empty discovery, and retain reports.
@@ -155,6 +176,10 @@ Status updated October 15, 2026: starter preparation, offline verification, GitH
 ### Integration, evidence, and submission
 
 - [ ] Review and merge each feature through a pull request, then update this checklist. [Issue #16](https://github.com/FlimsyOwl12/DEVASC-Project/issues/16)
+  - [x] Merge the F1/F2/F3/F4 changes through PRs #21–#24 and the F9 pipeline implementation through PR #26.
+  - [x] Open [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27) for F7/F8 and resolve the same-name candidate and tracked-cache findings.
+  - [ ] Obtain team review and merge PR #27; issues #13 and #14 are linked to close on merge.
+  - [ ] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
 - [ ] Record the final application's features, limitations, and test results. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17)
 - [ ] Prepare the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
 - [ ] Complete the supplied team reflection questions and activity rubric using actual team experience. [Issue #19](https://github.com/FlimsyOwl12/DEVASC-Project/issues/19)
@@ -166,7 +191,7 @@ GitHub status follow-up: issues #3–#6 and #10–#11 are still open although th
 
 Agree on owners before coding. Use one separate branch per task with a short descriptive name, such as `f7-export-results` or `docs-readme-checklist`. Keep commits scoped to the task. Follow **branch → implementation → tests → PR → merge → delete the finished branch locally and on GitHub**. Describe the acceptance criteria and test evidence in the PR, and ask another member to review it.
 
-F1–F6 are complete. F7 and F8 remain optional/deferred work; F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
+F1–F6 are complete. F7 exports and F8 candidate selection are implemented on `F7---F8-Donezo` and awaiting review and merge in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
 
 Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
 
@@ -178,7 +203,7 @@ python scripts/run_offline_tests.py
 
 Configuration fix verified: six additional offline checks covered `.env` loading from another working directory, exported-key precedence, and missing configuration for both scripts. Startup with the project's saved `.env` key now reaches the travel-profile prompt; no network request was made during that startup check. This confirms key loading, not GraphHopper's acceptance of the key.
 
-Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The application tests cover F1/F2/F3/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. F3 coverage includes summary totals without directions, numbered detailed output in both units, mode validation, quitting without HTTP requests, and changing modes between mocked routes. Four F9 runner regression tests bring the suite to 42 tests and verify isolation, failure reporting, blocked HTTP, and empty discovery. See `docs/automated-checks.md` for CI setup and remaining Activity 4 work. Each selected issue is implemented on its own branch and merged through its own pull request; finished implementation branches are deleted.
+Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The application tests cover F1/F2/F3/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. F3 coverage includes summary totals without directions, numbered detailed output in both units, mode validation, quitting without HTTP requests, and changing modes between mocked routes. The four F9 runner regression tests verify isolation, failure reporting, blocked HTTP, and empty discovery. F7/F8 export, candidate-selection, and history tests bring the current suite to 69 tests, including the same-name candidate regression. See `docs/automated-checks.md` for CI setup and remaining Activity 4 work. F7 and F8 share PR #27. Keep commits scoped and delete finished implementation branches after merging.
 
 ## References
 

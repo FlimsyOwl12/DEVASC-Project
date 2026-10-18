@@ -24,7 +24,7 @@ DISCONNECTED_ROUTE = ("Manila, Philippines", "Honolulu, Hawaii")
 
 
 def geocode_checked(label, key):
-    status, lat, lng, name = app.geocoding(label, key)
+    status, lat, lng, name = app.geocoding(label, key, limit=1)
     if lat is None or lng is None:
         print(f"Geocoding failed for {label!r}; status={status}")
         return None
