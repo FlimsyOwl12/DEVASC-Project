@@ -1,6 +1,6 @@
 # Verification record — October 18, 2026
 
-Application revision: `9238164466fa18c5b9bcec394125f6c2514cfcef` (merged PR #27). This file records observed results, rather than committing generated console logs or credentials.
+Current verified main revision: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474` (merged PRs #30/#28). The earlier F7/F8 verification used `9238164`; both records are retained below. This file records observed results, rather than committing generated console logs or credentials.
 
 | Check | Observed result | Evidence |
 | --- | --- | --- |
@@ -9,7 +9,11 @@ Application revision: `9238164466fa18c5b9bcec394125f6c2514cfcef` (merged PR #27)
 | Merged-main GitHub Actions | 69 tests passed on both Python 3.10 and 3.14 | [Run 39121848255](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39121848255) |
 | Final F7/F8 PR checks | Both Python matrix jobs passed | [Run 39120102034](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39120102034) |
 | F6 live checks | Car/bike/foot reachable; disconnected route rejected, recorded October 14 | [Live evidence](live-verification.md) |
-| Required Jenkins execution | Not yet verified | Server/job, successful/failed build links, and automatic-trigger evidence still required |
+| Jenkins manual and SCM-triggered success | Original #1/#2 passed 69 tests and archived reports | [Jenkins evidence](jenkins-evidence.md) |
+| Jenkins controlled failure | Demo #1 at `bdd74ce`: 70 tests, exactly one intentional failure; report archived | [Demo #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/1/) |
+| Jenkins automatic recovery | Demo #2 at `ed43bde`: SCM-triggered, 69 passing tests; report archived | [Demo #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/2/) |
+| Jenkins merged-main verification | Original #5 at `c6d34d5`: 69 tests in 0.486 seconds, SUCCESS; report archived | [Build #5](http://127.0.0.1:8080/job/DEVASC-GraphHopper/5/) |
+| Current-main GitHub Actions | Python 3.10/3.14 passed after PRs #30/#28 merged | [Run 39132132376](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39132132376) |
 
 ## Test distribution
 
@@ -37,4 +41,4 @@ python scripts/run_offline_tests.py
 
 The test command does not require a real API key, disables dotenv loading, and blocks HTTP/socket connections. Installation and CI checkout need network access. Its generated report is ignored locally; the GitHub workflow retains uploaded reports for 14 days, so download any evidence required for submission before it expires. Do not add the API key or credential-bearing request URLs to evidence.
 
-The recorded F6 live run predates F7/F8. This verification did not rerun GraphHopper live requests or claim a Jenkins result.
+The recorded F6 live run predates F7/F8. No new GraphHopper live requests were made for this report. Jenkins results above were observed on October 18. The original job targets main and the demo job is disabled with history retained. Local build links require the Jenkins host; keep exported reports/screenshots for submission. Polling is verified, not webhook delivery; instructor acceptance remains pending.

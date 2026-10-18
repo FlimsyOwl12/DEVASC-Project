@@ -1,6 +1,6 @@
 # DEVASC Option 1 — application report
 
-Prepared October 18, 2026 for PalpakGPT. Application baseline: `9238164466fa18c5b9bcec394125f6c2514cfcef`, the merged F7/F8 version. This report documents the implemented application; instructor approval, a verified Jenkins build, and personal/team assessment responses remain separate deliverables.
+Prepared October 18, 2026 for PalpakGPT. Verified main baseline: `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474`, after F7/F8 and Jenkins/checklist PRs #30/#28. This report documents implemented behavior and observed GitHub/Jenkins results. Instructor approval and personal/team assessment responses remain outstanding.
 
 ## Problem and scope
 
@@ -21,7 +21,7 @@ Python makes HTTPS GET requests to GraphHopper's geocoding and routing endpoints
 | F7 exports | TXT, JSON and CSV retain units and directions; filenames are checked and collisions cannot silently overwrite files | PR #27; export tests |
 | F8 place choice | Up to five valid results; retry/quit; show coordinates for same-name places; route to selected coordinates | PR #27; candidate tests |
 | Session UX | Main menu; last ten successful routes; history viewing/export without further HTTP requests | PR #27; history tests |
-| F9 CI code | GitHub Actions matrix and Jenkinsfile run the same offline command and retain reports | PR #26; [Pipeline guide](automated-checks.md) |
+| F9 CI execution | GitHub Actions and Jenkins run offline checks; SCM polling, controlled failure/recovery and final-main build #5 verified | PRs #26/#30; [Pipeline guide](automated-checks.md); [Jenkins evidence](jenkins-evidence.md) |
 
 PR links: [#21](https://github.com/FlimsyOwl12/DEVASC-Project/pull/21), [#22](https://github.com/FlimsyOwl12/DEVASC-Project/pull/22), [#23](https://github.com/FlimsyOwl12/DEVASC-Project/pull/23), [#24](https://github.com/FlimsyOwl12/DEVASC-Project/pull/24), [#26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [#27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
 
@@ -78,6 +78,18 @@ The runner clears the GraphHopper key, disables dotenv loading, blocks unmocked 
 
 The October 14 live record reports Manila City Hall to Quezon Memorial Circle: car 11.6 km, bike 12.4 km, foot 11.6 km. Manila to Honolulu returned HTTP 400, connection not found. These are historical observations from that account/date, not a guarantee of future provider behavior. No new live request was made for this report, and the later F7/F8 UI has offline coverage rather than newly recorded live evidence.
 
+### Observed Jenkins results — October 18
+
+| Run | Observed result | Commit |
+| --- | --- | --- |
+| Original job #1 | Manual success; 69 tests; report archived | `001efaf` |
+| Original job #2 | SCM-triggered success; 69 tests; report archived | `21c3230` |
+| Demo #1 | 70 tests; exactly one intentional failure; report archived; FAILURE | `bdd74ce` |
+| Demo #2 | Automatic SCM-triggered recovery; 69 tests; report archived; SUCCESS | `ed43bde` |
+| Original job #5 | Merged main; 69 tests in 0.486 seconds; report archived; SUCCESS | `c6d34d5` |
+
+The original job now targets `*/main`. Demo #2 reverted only the disposable failure test; neither demonstration commit belongs in main. Local Jenkins links are usable only on the hosting machine, so save screenshots/reports for presentation. SCM polling detected pushes without a public listener; this is not verified webhook delivery. Exact branch-run SHAs and diagnostics are in [Jenkins evidence](jenkins-evidence.md), with the final-main follow-up in [handoff PR #32](https://github.com/FlimsyOwl12/DEVASC-Project/pull/32).
+
 ## Limitations and required follow-up
 
 - Routing quality, coverage, quota, and profile access depend on the external API/account. No monthly quota or budget has been verified for this report.
@@ -86,7 +98,7 @@ The October 14 live record reports Manila City Hall to Quezon Memorial Circle: c
 - Place-choice coordinates distinguish identical labels, but no map preview is provided. The user must choose the intended candidate.
 - JSON numeric distances retain two decimal places while display labels use one; JSON also includes the formatted distance. CSV/TXT use the displayed precision.
 - Known API failures are reported with safe messages; the application does not automatically retry rate limits or network failures.
-- GitHub Actions is verified. Jenkins is required by the instructor and still needs a configured server/job, actual successful/failed builds, and automatic commit-trigger evidence. No deployment is implemented or claimed.
+- Jenkins 2.580.1 is configured and verified: manual success, automatic SCM triggering, one intentional test failure, automatic recovery and final-main build #5. The demo job is disabled with reports retained. Instructor acceptance of the local environment/polling remains outstanding; no GitHub webhook delivery or deployment is claimed.
 - P0 scope approval, confirmed feature ownership/estimates, the final presentation rehearsal/delivery, the actual student rubric, and member reflections remain team/instructor actions.
 
 ## Team records and contribution attribution
@@ -101,7 +113,8 @@ Git records `JL`/`FlimsyOwl12` commits for starter/enhancement/testing work and 
 - [x] Include permanent offline results, CI links, and recorded live evidence without credentials.
 - [x] Identify incomplete course deliverables explicitly.
 - [ ] Team reviews this report and confirms contribution/ownership statements.
-- [ ] Instructor confirms provider/scope; required Jenkins execution is recorded.
+- [x] Record Jenkins success, automatic SCM detection, controlled failure/recovery and final-main build #5.
+- [ ] Instructor confirms provider/scope and accepts the actual Jenkins environment/trigger.
 - [ ] Team completes presentation delivery and the official reflection/rubric.
 
 Sources: supplied *DEVASC Project.pdf* and REST API lab; repository source/tests at the baseline above; linked PRs and CI; `docs/live-verification.md`. The instructor guide states deliverables but does not include the detailed student rubric/reflection questions.
