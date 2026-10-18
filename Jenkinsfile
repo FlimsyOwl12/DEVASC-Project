@@ -7,6 +7,8 @@ pipeline {
     }
     triggers {
         githubPush()
+        // Local Jenkins can detect commits without an internet-facing webhook.
+        pollSCM('H/5 * * * *')
     }
     stages {
         stage('Checkout') {
