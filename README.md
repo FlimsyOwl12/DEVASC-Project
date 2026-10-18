@@ -228,7 +228,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 
 PRs #28 and #30 are merged. Report PR #29 and presentation PR #31 remain open for team review, with refreshed Jenkins evidence. Presentation delivery, member reflections and instructor decisions are still outstanding. Activity 5 is a separate network-automation plan in the shared DRAFT, not implemented in this routing repository.
 
-Status reconciliation: F5/F6 criteria are supported by the permanent 69-test suite and the October 14 live record; issues #10/#11 can close on that evidence. Issues #3–#6 remain open for feature ownership, meeting/deadline clarification, estimates/budget and board confirmation. Their README entries are left unchecked until those criteria are met.
+Status reconciliation: issues #10/#11 are closed on the permanent 69-test suite and the October 14 live record. Issues #3–#6 remain open for feature ownership, meeting/deadline clarification, estimates/budget and board confirmation. Their README entries are left unchecked until those criteria are met.
 
 The [backlog/integration review](docs/backlog-review.md) records merge evidence, verified Jenkins execution, cleanup status, and the remaining team decisions.
 
