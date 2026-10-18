@@ -29,11 +29,11 @@ The command works from any directory. It clears `GRAPHHOPPER_API_KEY`, disables 
 | `tests/test_graphhopper_responses.py` | Invalid JSON/schema, coordinates and numeric ranges, missing fields, safe recovery and credential redaction |
 | `tests/test_graphhopper_api.py` | Mocked request parameters/success, empty results, HTTP 401/429/500, timeout, missing key and skipped routing |
 | `tests/test_graphhopper_exports.py` | TXT/JSON/CSV exports, metric/imperial consistency, direction preservation, path traversal protection, duplicate handling, and key redaction |
-| `tests/test_graphhopper_geocoding_candidates.py` | Multiple candidate display, selected candidate coordinates in routing, invalid selections, retry/quit, and malformed candidate filtering |
+| `tests/test_graphhopper_geocoding_candidates.py` | Multiple candidate display (including coordinates for identical names), selected candidate coordinates in routing, invalid selections, retry/quit, and malformed candidate filtering |
 | `tests/test_graphhopper_history_menu.py` | Main menu navigation, 10-route session history cap, failed route exclusion, and history view/export without network requests |
 | `tests/test_offline_runner.py` | Subprocess checks for credential isolation, disabled dotenv loading, usable mocks, blocked connections, failed tests and empty discovery |
 
-The suite contains 68 tests. The runner's regression tests create temporary miniature projects and deliberately exercise success/failure paths; expected fixture failures do not make the real suite fail. They never need a real API key or network request.
+The suite contains 69 tests. The runner's regression tests create temporary miniature projects and deliberately exercise success/failure paths; expected fixture failures do not make the real suite fail. They never need a real API key or network request.
 
 ## View GitHub evidence
 
