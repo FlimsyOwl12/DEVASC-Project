@@ -2,7 +2,7 @@
 
 The instructor requires Jenkins (confirmed by the user on October 18, 2026). GraphHopper supplies routes; Jenkins checks code. A working GraphHopper key does not create a Jenkins project, and a passing GitHub Actions workflow does not replace the Jenkins requirement.
 
-This package prepares a local Jenkins environment. Actual installation, credential setup, and successful/failed build evidence remain to be completed on the team's machine. Nothing here embeds a GraphHopper key, GitHub token, Jenkins password, or webhook secret.
+The local environment is running and build #1 passed all 69 offline tests on October 18, 2026. Automatic commit detection and a controlled failure/recovery must be verified separately. Nothing here embeds a GraphHopper key, GitHub token, Jenkins password, or webhook secret.
 
 ## Start the local service
 
@@ -55,7 +55,7 @@ For a failure demonstration, use a separate disposable branch and a separate cop
 | Automatic trigger | Polling log/new-commit build, or actual webhook delivery/build |
 | Instructor acceptance | Who confirmed the environment/trigger and when |
 
-All fields are pending until observed. A local URL is only accessible on the machine hosting Jenkins; use screenshots or archived reports for presentation when the audience cannot open it.
+See the [recorded Jenkins evidence](jenkins-evidence.md) for observed results and remaining checks. A local URL is only accessible on the machine hosting Jenkins; use screenshots or archived reports for presentation when the audience cannot open it.
 
 ## Stop the service
 

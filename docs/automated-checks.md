@@ -47,7 +47,7 @@ Record the actual PR URL, commit SHA, successful run URL, date, and test results
 
 ## Set up Jenkins for the course
 
-No configured Jenkins server/job was confirmed during implementation. Jenkins execution and an automatic new-commit build remain required. The Jenkinsfile supports both `githubPush()` for a reachable server and five-minute SCM polling for local Jenkins; see the local setup guide.
+Local Jenkins 2.580.1 and the `DEVASC-GraphHopper` job are configured. Manual build #1 passed all 69 offline tests on October 18; see the [recorded evidence](jenkins-evidence.md). Automatic new-commit detection and controlled failure/recovery remain separate checks. The Jenkinsfile supports both `githubPush()` for a reachable server and five-minute SCM polling for local Jenkins; see the local setup guide.
 
 1. Use a dedicated Linux Jenkins agent with Python 3.10 or newer, `venv`, Git, and access to the dependency package index. The pipeline clears its Jenkins workspace before checkout and after the build; do not point it at a personal working folder.
 2. Install the Pipeline, Git, and GitHub plugins. Create a **Pipeline** job, choose **Pipeline script from SCM**, select this Git repository, set the branch to `*/main` (or the feature branch for verification), and set **Script Path** to `Jenkinsfile`. For this private repository, configure a read-only checkout credential in Jenkins, never in the repository.
@@ -62,7 +62,8 @@ No configured Jenkins server/job was confirmed during implementation. Jenkins ex
 - [x] Document the test cases, pipeline stages, and GitHub evidence collection.
 - [ ] Confirm the demonstration tool/environment with the instructor.
 - [x] Prepare a local Docker/Compose setup with Python/venv and the required Jenkins plugins.
-- [ ] Configure the required Jenkins checkout/job and record successful/failed builds and automatic commit detection.
+- [x] Configure the required Jenkins checkout/job and record successful manual build #1 (69 tests).
+- [ ] Record automatic commit detection and actual failed/recovery Jenkins builds.
 - [x] Record the PR and actual GitHub Actions results after publication (links above).
 - [ ] Prepare the Activity 4 presentation with actual evidence.
 - [ ] Complete the rubric and reflection using the team's own experience.
