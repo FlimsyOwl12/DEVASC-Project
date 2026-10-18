@@ -68,6 +68,42 @@ class MultipleGeocodingCandidatesTests(unittest.TestCase):
         self.assertIn("2. Springfield, Missouri, United States", text)
         self.assertIn("3. Springfield, Massachusetts, United States", text)
 
+    def test_same_name_candidates_show_coordinates_and_route_to_selected_place(self):
+        hits = [
+            {
+                "name": f"Central Park {KEY}",
+                "city": "Example City",
+                "point": {"lat": 10.0, "lng": 20.0},
+            },
+            {
+                "name": f"Central Park {KEY}",
+                "city": "Example City",
+                "point": {"lat": 11.0, "lng": 21.0},
+            },
+        ]
+        destination = (200, 12.0, 22.0, "Destination")
+        route = {"distance": 1000, "time": 60000, "instructions": []}
+        output = io.StringIO()
+        with (
+            patch.object(app.requests, "get", side_effect=[
+                response({"hits": hits}), response({"paths": [route]}),
+            ]) as get,
+            patch("builtins.input", return_value="2"),
+            contextlib.redirect_stdout(output),
+        ):
+            origin = app.geocoding("Central Park", KEY)
+            self.assertEqual(app.routing(origin, destination, "car", KEY), route)
+
+        text = output.getvalue()
+        self.assertIn("1. Central Park [REDACTED], Example City (lat: 10.0, lng: 20.0)", text)
+        self.assertIn("2. Central Park [REDACTED], Example City (lat: 11.0, lng: 21.0)", text)
+        self.assertNotIn(KEY, text)
+        self.assertEqual(get.call_count, 2)
+        self.assertEqual(origin[1:3], (11.0, 21.0))
+        route_url = get.call_args_list[1].args[0]
+        self.assertIn("point=11.0%2C21.0", route_url)
+        self.assertNotIn("point=10.0%2C20.0", route_url)
+
     def test_single_valid_candidate_skips_selection_menu(self):
         output = io.StringIO()
         single = [springfield_hits()[0]]

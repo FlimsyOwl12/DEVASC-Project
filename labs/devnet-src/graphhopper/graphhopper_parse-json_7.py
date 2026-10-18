@@ -313,7 +313,10 @@ def prompt_candidate_selection(query, candidates, key=None):
     safe_query = redact(query, key)
     print(f'\nSearch results for "{safe_query}":\n')
     for idx, candidate in enumerate(candidates, start=1):
-        print(f"{idx}. {candidate['name']}")
+        print(
+            f"{idx}. {candidate['name']} "
+            f"(lat: {candidate['lat']}, lng: {candidate['lng']})"
+        )
     print()
     prompt_text = f"Select a location (1-{len(candidates)}), R to search again, or Q to quit: "
     while True:
