@@ -20,7 +20,7 @@ Prepared for collaboration: environment-based API key configuration, dependency/
 
 **Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text. F7 adds local route exports in TXT, JSON, and CSV formats with sanitized filenames and duplicate protection. F8 adds interactive selection from up to five validated geocoding candidates. The CLI also provides a main navigation menu and session route history (storing up to 10 routes for offline viewing and exporting).
 
-**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Instructor approval, Jenkins environment verification, and the team presentation/rubric remain pending.
+**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Jenkins is required by the instructor (confirmed by the user on October 18). Jenkins execution, scope approval, and the team presentation/rubric remain pending.
 
 **Pending:** final team deliverables. No claim of final completion is made.
 
@@ -103,9 +103,9 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 ## Team task checklist
 
-Checked items indicate completed work; unchecked items remain for the team. F7/F8 implementation is complete on this branch, while team review and merge remain pending in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27). Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
+Checked items indicate completed work; unchecked items remain for the team. F7/F8 were merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); issues #13/#14 are closed. The remaining integration work is confirming the team review record. Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; instructor/environment verification and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
+Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; required Jenkins verification and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
 
 ### Starter preparation
 
@@ -146,11 +146,11 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 
 ### Development status — F7/F8
 
-- [x] **F7 — Export route results** — P3: implementation complete; review and merge pending. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
+- [x] **F7 — Export route results** — P3: implemented and merged through PR #27. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
   - [x] Export route summaries and directions in TXT, JSON, and CSV with the selected units and no API key.
   - [x] Validate filenames and paths; prevent silent overwrites and support choosing another filename or automatic renaming.
   - [x] Verify exports, formatting, duplicate handling, filesystem errors, and key redaction with offline tests.
-- [x] **F8 — Multiple geocoding candidates** — P3: implementation complete; review and merge pending. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
+- [x] **F8 — Multiple geocoding candidates** — P3: implemented and merged through PR #27. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
   - [x] Show up to five validated candidates and use the selected candidate's coordinates in routing.
   - [x] Handle invalid choices, search retry, and quitting; skip selection when only one valid candidate exists.
   - [x] Display latitude and longitude so candidates with identical names can be distinguished.
@@ -170,7 +170,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Run offline tests without a real key; block network calls, fail on test errors/empty discovery, and retain reports.
   - [x] Document test cases, pipeline functionality, and evidence collection.
   - [x] Verify published GitHub checks: [PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385), and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) passed 42 tests on both Python 3.10 and 3.14.
-  - [ ] Confirm the CI demonstration environment with the instructor; configure and verify Jenkins if required.
+  - [ ] Configure and verify the required Jenkins pipeline: record successful/failed builds and a push-triggered build.
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
 ### Integration, evidence, and submission
@@ -178,20 +178,25 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 - [ ] Review and merge each feature through a pull request, then update this checklist. [Issue #16](https://github.com/FlimsyOwl12/DEVASC-Project/issues/16)
   - [x] Merge the F1/F2/F3/F4 changes through PRs #21–#24 and the F9 pipeline implementation through PR #26.
   - [x] Open [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27) for F7/F8 and resolve the same-name candidate and tracked-cache findings.
-  - [ ] Obtain team review and merge PR #27; issues #13 and #14 are linked to close on merge.
-  - [ ] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
+  - [x] Merge PR #27; issues #13 and #14 closed automatically.
+  - [ ] Confirm the team review record; GitHub shows an `LGTM!` comment, with review state `COMMENTED`.
+  - [x] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
 - [ ] Record the final application's features, limitations, and test results. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17)
 - [ ] Prepare the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
 - [ ] Complete the supplied team reflection questions and activity rubric using actual team experience. [Issue #19](https://github.com/FlimsyOwl12/DEVASC-Project/issues/19)
 - [ ] Review the backlog and explicitly defer unfinished features. [Issue #20](https://github.com/FlimsyOwl12/DEVASC-Project/issues/20)
+  - [x] Prepare the [evidence-based backlog review](docs/backlog-review.md); F1–F8 are implemented and no longer deferred.
+  - [ ] Have the team confirm owners, estimates, scope, and the next iteration on its project board.
 
 GitHub status follow-up: issues #3–#6 and #10–#11 are still open although their README entries are checked. Review their acceptance criteria and recorded evidence before closing them.
+
+The [backlog/integration review](docs/backlog-review.md) records merge evidence, completed cleanup, mandatory Jenkins work, and the remaining team decisions.
 
 ## Working together
 
 Agree on owners before coding. Use one separate branch per task with a short descriptive name, such as `f7-export-results` or `docs-readme-checklist`. Keep commits scoped to the task. Follow **branch → implementation → tests → PR → merge → delete the finished branch locally and on GitHub**. Describe the acceptance criteria and test evidence in the PR, and ask another member to review it.
 
-F1–F6 are complete. F7 exports and F8 candidate selection are implemented on `F7---F8-Donezo` and awaiting review and merge in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
+F1–F6 are complete. F7 exports and F8 candidate selection are merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
 
 Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
 
