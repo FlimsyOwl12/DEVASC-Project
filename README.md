@@ -2,7 +2,7 @@
 
 This is a **partial team project** based on the completed *Integrate a REST API in a Python Application* lab. The existing lab workflow is the starting point; selected enhancements are implemented while the remaining backlog is available for team members.
 
-The customer goal is to make a Python directions application easier to use: accept an origin, destination, and travel profile, then present distance, duration, and directions clearly. Proposed enhancements include choosing metric/imperial units and improving terminal output.
+The customer goal is to make a Python directions application easier to use: accept an origin, destination, and travel profile, then present distance, duration, and directions clearly. Implemented enhancements include metric/imperial units, clearer output, route exports, and location selection.
 
 ## Requirements and scope
 
@@ -10,7 +10,7 @@ The supplied **DEVASC Project.pdf**, Project Activity 3 (Social Coding), defines
 
 The guide refers to MapQuest. The supplied **Integrate a REST API in a Python Application** lab and the [reference repository](https://github.com/Cocoasaur/devasc-graphhopper-api) use **GraphHopper**, so this project follows that lab. Confirm this provider choice with the instructor when approving the scope.
 
-Activity 4 adds backlog development and automated testing/deployment. Activity 5 is a separate network automation activity; it is outside this routing starter. The guide describes eventual team deliverables, while this handoff implements only the baseline preparation requested for now.
+Activity 4 adds backlog development and automated testing/deployment. Activity 5 is a separate network automation activity; it is outside this routing starter. Application enhancements and verified automation are tracked below; instructor approvals and team assessment deliverables remain separate.
 
 ## Current status
 
@@ -61,7 +61,7 @@ python labs/devnet-src/graphhopper/graphhopper_parse-json_7.py
 
 The [python-dotenv loader](https://bbc2.github.io/python-dotenv/) reads `.env` without executing it as a shell script. `.env.example` remains a template and is not loaded directly.
 
-Use the main menu (`1. Find a Route`, `2. View Route History`, `3. Export Previous Route`, `4. Exit`) to navigate. When finding a route, enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. When multiple geocoding candidates match a location, choose from the numbered candidate list (`1-5`), which shows latitude and longitude so same-name places can be distinguished, or use `R` to search again or `Q` to quit. After displaying a route, optionally export it to `exports/` as TXT, JSON, or CSV, or view/export any of the last 10 session routes from the main menu without additional API requests. Enter `q` or `quit` at any prompt to exit. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
+Use the main menu (`1. Find a Route`, `2. View Route History`, `3. Export Previous Route`, `4. Exit`) to navigate. When finding a route, enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. When multiple geocoding candidates match a location, choose from the numbered candidate list (`1-5`), which shows latitude and longitude so same-name places can be distinguished, or use `R` to search again or `Q` to quit. After displaying a route, optionally export it to `exports/` as TXT, JSON, or CSV, or view/export any of the last 10 session routes from the main menu without additional API requests. Use menu option 4 or `q`/`quit` at the main menu to exit. In export/history-selection menus, `q`/`quit` cancels the operation and returns to the main menu. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
 
 The earlier geocoding-only exercise is also included:
 
@@ -91,7 +91,8 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `.github/workflows/offline-tests.yml` / `Jenkinsfile` | Automatic GitHub checks and the course Jenkins pipeline |
 | `docs/automated-checks.md` | F9 setup, test plan, evidence collection, and remaining Activity 4 deliverables |
 | `tests/test_offline_runner.py` | CI runner isolation and failure-reporting regression tests |
-| `docs/project-draft.md` | Draft project write-up for the shared Draft Document |
+| `docs/project-draft.md` | Current local summary for the shared DRAFT tab |
+| `docs/final-report.md` / `docs/test-results.md` | Implemented behavior, setup, limitations, and observed verification evidence |
 | `docs/live-verification.md` | F6 command, evidence checklist, and redaction guidance |
 | `tests/test_graphhopper_api.py` | Offline F5 tests for mocked HTTP, failures, timeouts, input, and no-key behavior |
 | `tests/test_graphhopper_cli.py` | Offline acceptance tests for F1/F2 |
@@ -180,7 +181,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Open [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27) for F7/F8 and resolve the same-name candidate and tracked-cache findings.
   - [ ] Obtain team review and merge PR #27; issues #13 and #14 are linked to close on merge.
   - [ ] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
-- [ ] Record the final application's features, limitations, and test results. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17)
+- [x] Record the implemented application's features, limitations, setup, and actual evidence in the [application report](docs/final-report.md) and [test-results summary](docs/test-results.md). [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17). Team review of the report remains part of submission preparation.
 - [ ] Prepare the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
 - [ ] Complete the supplied team reflection questions and activity rubric using actual team experience. [Issue #19](https://github.com/FlimsyOwl12/DEVASC-Project/issues/19)
 - [ ] Review the backlog and explicitly defer unfinished features. [Issue #20](https://github.com/FlimsyOwl12/DEVASC-Project/issues/20)
