@@ -43,6 +43,14 @@ Recovery commit `ed43bdee6e3b38954dd456286f9554297e79a2f1` reverts only that dem
 
 The controlled Jenkins failure/recovery and automatic commit-detection checks are now verified. See the [demonstration instructions](jenkins-failure-demo.md); never merge the disposable demonstration commits into main. Keep the demo job and branch until the team has saved needed screenshots and reports. No cleanup or instructor acceptance is claimed here.
 
+## Final verification after merging PRs #30 and #28
+
+PR #30 merged into main as `5bb38bb3ba7ab2648411bbb58516b14f8a711359`; PR #28 followed as `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474`. GitHub checks passed on [the merged-main run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39132132376).
+
+The original `DEVASC-GraphHopper` job now targets `*/main`. [Build #5](http://127.0.0.1:8080/job/DEVASC-GraphHopper/5/) checked out `c6d34d534dcfd39915cfa8adc3fc21ee1c54b474`, passed all 69 offline tests in 0.486 seconds, archived `test-results/unittest.txt` and finished `SUCCESS` on October 18. This verifies the merged main revision, in addition to the earlier feature-branch runs.
+
+`DEVASC-GraphHopper-Demo` is disabled, with Demo #1/#2 and their archived reports retained. Screenshot/report download instructions were given; confirm the team's saved evidence before deleting a job or volume. Keep the disposable branch out of main. Remote merged-branch cleanup should follow publication of the stable documentation links in this handoff.
+
 ## Still required
 
 - [x] Actual failed Jenkins build and diagnostic report (Demo #1).

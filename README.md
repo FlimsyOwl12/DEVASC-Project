@@ -83,10 +83,12 @@ Setup record — October 18, 2026:
 - [x] Configure the `DEVASC-GraphHopper` Pipeline job and its private-repository checkout credential in Jenkins.
 - [x] Record [manual build #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper/1/): commit `001efafcb0abef8356c37cb3c75f8f92768b9673`, 69 tests passed, report archived, `SUCCESS`.
 - [x] Verify automatic detection through SCM polling: [build #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper/2/) checked out `21c323049e2d1b8061fa34bae1410aa95573d83e`, passed all 69 tests and archived the report. Its recorded cause is an SCM trigger, not a manual build or verified webhook.
-- [x] Prepare `demo/jenkins-failure-recovery` and separate-job [instructions in PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/blob/ci-jenkins-local-setup/docs/jenkins-failure-demo.md); its added test was verified locally to fail as intended.
+- [x] Prepare `demo/jenkins-failure-recovery` and separate-job [instructions in PR #30](docs/jenkins-failure-demo.md); its added test was verified locally to fail as intended.
 - [x] Run the separate Jenkins demonstration job: [Demo #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/1/) at `bdd74ce` ran 70 tests with exactly one intentional failure and archived the report.
 - [x] Revert only the demo test and verify automatic recovery: [Demo #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/2/) at `ed43bde` was SCM-triggered, passed all 69 original tests and archived the report (`SUCCESS`).
-- [ ] Save presentation screenshots/reports, then disable the demo job and remove the disposable branch after team review; do not merge its commits.
+- [x] Switch the original job to `*/main` after PRs #30/#28 merged; [build #5](http://127.0.0.1:8080/job/DEVASC-GraphHopper/5/) checked out `c6d34d5`, passed 69 tests and archived the report (`SUCCESS`).
+- [x] Disable `DEVASC-GraphHopper-Demo` while retaining both demonstration builds and reports.
+- [ ] Confirm presentation screenshots/reports are saved and remove the disposable branch after team review; do not merge its commits.
 
 Passwords, unlock values, tokens, and account details are not recorded in this README.
 
@@ -129,7 +131,7 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 Checked items indicate completed work; unchecked items remain for the team. F7/F8 were merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); issues #13/#14 are closed. The remaining integration work is confirming the team review record. Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; required Jenkins verification and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
+Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; Jenkins success, automatic polling, intentional failure, recovery and the final merged-main build are verified. Instructor acceptance of the local environment/polling and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
 
 ### Starter preparation
 
@@ -151,13 +153,13 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 ### Planning and collaboration — P1; suggested area: scrum lead / recorder
 
 - [ ] **P0** Agree on the customer problem, GraphHopper provider, and sprint scope with the instructor. [Issue #2](https://github.com/FlimsyOwl12/DEVASC-Project/issues/2)
-- [x] Record team name, members, scrum lead, recorder, and feature owners. [Issue #3](https://github.com/FlimsyOwl12/DEVASC-Project/issues/3)
-- [x] Set a meeting schedule, communication channel, and sprint deadline. [Issue #4](https://github.com/FlimsyOwl12/DEVASC-Project/issues/4)
-- [x] Add an effort estimate and dependency to each selected task; document the budget/API allowance. [Issue #5](https://github.com/FlimsyOwl12/DEVASC-Project/issues/5)
+- [ ] Confirm feature owners and complete the team responsibilities record; the team name, members, scrum lead and recorder are already recorded in the shared DRAFT. [Issue #3](https://github.com/FlimsyOwl12/DEVASC-Project/issues/3)
+- [ ] Confirm the meeting timezone, resolve Saturday versus twice-daily wording, and agree on the application sprint deadline; Discord and meeting-note responsibilities are recorded. [Issue #4](https://github.com/FlimsyOwl12/DEVASC-Project/issues/4)
+- [ ] Confirm effort estimates, dependencies, budget and API allowance against the team's actual agreement and account. [Issue #5](https://github.com/FlimsyOwl12/DEVASC-Project/issues/5)
 - [x] Configure the local Git repository with `FlimsyOwl12/DEVASC-Project` as `origin`; use `Cocoasaur/devasc-graphhopper-api` as the lab reference.
 - [x] Confirm the shared repository with the team and invite collaborators.
 - [x] Create 19 GitHub issues for the unfinished README tasks (issues #2–#20).
-- [x] Assign issue owners and track status on the team's board. [Issue #6](https://github.com/FlimsyOwl12/DEVASC-Project/issues/6)
+- [ ] Confirm issue owners and the actual project-board status with the team. [Issue #6](https://github.com/FlimsyOwl12/DEVASC-Project/issues/6)
 
 ### Completed development — F1–F6
 
@@ -198,7 +200,8 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Record automatic SCM-triggered build #2: all 69 tests passed and the report was archived.
   - [x] Prepare Activity 4 presentation material in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31); add the recorded Jenkins results during team rehearsal and complete the rubric/reflection.
   - [x] Verify published GitHub checks: [PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385), and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) passed 42 tests on both Python 3.10 and 3.14.
-  - [x] Record actual failed/recovery builds on the separate demonstration job, with both reports archived; see [PR #30 evidence](https://github.com/FlimsyOwl12/DEVASC-Project/blob/ci-jenkins-local-setup/docs/jenkins-evidence.md).
+  - [x] Record actual failed/recovery builds and the final-main build #5, with reports archived; see [Jenkins evidence](docs/jenkins-evidence.md).
+  - [ ] Obtain instructor acceptance of the local Jenkins environment and SCM polling, or demonstrate a reachable webhook if required.
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
 ### Integration, evidence, and submission
@@ -207,6 +210,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Merge the F1/F2/F3/F4 changes through PRs #21–#24 and the F9 pipeline implementation through PR #26.
   - [x] Open [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27) for F7/F8 and resolve the same-name candidate and tracked-cache findings.
   - [x] Merge PR #27; issues #13 and #14 closed automatically.
+  - [x] Merge Jenkins PR #30 (`5bb38bb`) and checklist PR #28 (`c6d34d5`); GitHub checks passed and Jenkins verified merged main.
   - [ ] Confirm the team review record; GitHub shows an `LGTM!` comment, with review state `COMMENTED`.
   - [x] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
 - [x] Prepare the application report and test-results summary in [PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29), covering features, setup, limitations and recorded evidence. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17). Review and merge the report PR before final submission.
@@ -222,17 +226,17 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Prepare the [evidence-based backlog review](docs/backlog-review.md); F1–F8 are implemented and no longer deferred.
   - [ ] Have the team confirm owners, estimates, scope, and the next iteration on its project board.
 
-Documentation/setup PRs #28–#31 are prepared for review; their files become part of `main` when each PR merges. Presentation delivery, member reflections, remaining Jenkins verification, and instructor decisions are not automatically completed by those merges.
+PRs #28 and #30 are merged. Report PR #29 and presentation PR #31 remain open for team review, with refreshed Jenkins evidence. Presentation delivery, member reflections and instructor decisions are still outstanding. Activity 5 is a separate network-automation plan in the shared DRAFT, not implemented in this routing repository.
 
-GitHub status follow-up: issues #3–#6 and #10–#11 are still open although their README entries are checked. Review their acceptance criteria and recorded evidence before closing them.
+Status reconciliation: F5/F6 criteria are supported by the permanent 69-test suite and the October 14 live record; issues #10/#11 can close on that evidence. Issues #3–#6 remain open for feature ownership, meeting/deadline clarification, estimates/budget and board confirmation. Their README entries are left unchecked until those criteria are met.
 
-The [backlog/integration review](docs/backlog-review.md) records merge evidence, completed cleanup, mandatory Jenkins work, and the remaining team decisions.
+The [backlog/integration review](docs/backlog-review.md) records merge evidence, verified Jenkins execution, cleanup status, and the remaining team decisions.
 
 ## Working together
 
 Agree on owners before coding. Use one separate branch per task with a short descriptive name, such as `f7-export-results` or `docs-readme-checklist`. Keep commits scoped to the task. Follow **branch → implementation → tests → PR → merge → delete the finished branch locally and on GitHub**. Describe the acceptance criteria and test evidence in the PR, and ask another member to review it.
 
-F1–F6 are complete. F7 exports and F8 candidate selection are merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
+F1–F6 are complete. F7 exports and F8 candidate selection are merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 has verified Jenkins execution and a test plan; its remaining instructor acceptance and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
 
 Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
 
