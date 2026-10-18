@@ -20,7 +20,7 @@ SLIDES = [
     ('cover', 'Routes you can read,\nchoose and save', [
         ('DEVASC Option 1', 'Python + GraphHopper REST API'),
         ('PalpakGPT', 'Activities 3 and 4 | October 18, 2026'),
-    ], 'Introduce the project as an enhancement of the supplied lab. This is a team project; do not claim that the group wrote the routing engine. Instructor scope approval and the required Jenkins evidence remain pending.'),
+    ], 'Introduce the project as an enhancement of the supplied lab. This is a team project; do not claim that the group wrote the routing engine. Jenkins success, SCM triggering, failure/recovery and final-main build #5 are verified. Instructor scope/polling acceptance and actual team assessment remain pending.'),
     ('cards', 'What problem are we solving?', [
         ('Choose the intended place', 'Several places may share the same name. The user needs enough detail to choose.'),
         ('Read a useful route', 'Show familiar units, clear totals and directions without asking users to read JSON.'),
@@ -54,7 +54,7 @@ SLIDES = [
         ('69', 'offline unittest cases'),
         ('2', 'CI Python versions: 3.10 / 3.14'),
         ('0', 'live API calls in the offline suite'),
-    ], 'Run python scripts/run_offline_tests.py. The runner clears the real key, disables dotenv loading and blocks unmocked HTTP/socket connections. Failure and empty discovery return nonzero status. Merged-main run: https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39121848255 .'),
+    ], 'Run python scripts/run_offline_tests.py. The runner clears the real key, disables dotenv loading and blocks unmocked HTTP/socket connections. Failure and empty discovery return nonzero status. Merged-main run: https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39132132376 .'),
     ('cards', 'Live evidence is a separate record', [
         ('Car', '11.6 km | 1,079,659 ms | 10 direction steps'),
         ('Bike', '12.4 km | 2,532,665 ms | 39 direction steps'),
@@ -69,10 +69,10 @@ SLIDES = [
     ], 'The DRAFT records Justine Smith Rendaje as scrum leader, Wilhelm Ramesh Dimacisil as recorder, and John Jessienel Arquesola / Janwel Gilo as Prompt Engineers. Each member should describe work they actually did and can explain. Personal contribution/challenge/lesson statements are still awaiting confirmation. PR #27 has an LGTM comment recorded as COMMENTED, not a formal APPROVED review.'),
     ('cards', 'Activity 4: Jenkins is required', [
         ('Pipeline stages', 'Checkout → Install dependencies → Offline tests → Archive report.'),
-        ('Automatic detection', 'SCM polling supports local Jenkins; a webhook needs a reachable server.'),
-        ('Prepared setup', 'Local Docker/Compose package, Python/venv and required Jenkins plugins.'),
-        ('Still to verify', 'Real success, deliberate failure, recovery and new-commit trigger evidence.'),
-    ], 'Explain that GraphHopper provides routes while Jenkins tests the code. GitHub Actions is verified but supplementary. The local Jenkins package is prepared in a separate PR, not a running/verified service. Merge it, configure checkout credentials in Jenkins, run the job once and record real build evidence. Do not claim polling is a verified GitHub webhook.'),
+        ('Automatic detection', 'SCM polling started original build #2 and Demo recovery #2. Webhook delivery is unverified.'),
+        ('Failure and recovery', 'Demo #1: 70 tests, one intentional failure. Demo #2: 69 passing tests.'),
+        ('Main verified', 'Build #5 at c6d34d5: 69 tests passed, report archived, SUCCESS.'),
+    ], 'Jenkins 2.580.1 is running. Original #1 passed manually, and SCM polling started #2 automatically. On the separate demo job, #1 at bdd74ce failed exactly one intentional test; reverting only that test produced ed43bde and automatic Demo #2 passed 69 tests. After PRs #30/#28 merged, original build #5 checked out c6d34d5 and passed 69 tests in 0.486 seconds with its report archived. The original job targets main and the demo job is disabled with its history retained. Open the saved failure/recovery/main reports and screenshots. See docs/jenkins-evidence.md and handoff PR #32. Polling is verified; webhook delivery and instructor acceptance are not.'),
     ('cards', 'Limits and the final team handoff', [
         ('Provider limits', 'Coverage, quotas, profile access and availability depend on the API/account.'),
         ('Application limits', 'Terminal UI; no map/database; only ten in-memory session records.'),
@@ -81,10 +81,11 @@ SLIDES = [
     ], 'Close by distinguishing implemented application features from unfinished course deliverables. The supplied instructor guide lists required rubrics but does not include the detailed student questions/scoring criteria. Obtain the actual rubric, rather than inventing grades or personal experience.'),
     ('sources', 'Evidence to open during questions', [
         ('Merged F7/F8 changes / PR #27', 'https://github.com/FlimsyOwl12/DEVASC-Project/pull/27'),
-        ('Merged-main 69-test CI run', 'https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39121848255'),
+        ('Merged-main 69-test CI run', 'https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39132132376'),
         ('Repository and task tracker', 'https://github.com/FlimsyOwl12/DEVASC-Project'),
         ('Original lab reference', 'https://github.com/Cocoasaur/devasc-graphhopper-api/tree/2289d4d'),
-    ], 'Supporting local materials: docs/final-report.md and docs/test-results.md (final report PR); docs/demo-guide.md; docs/team-reflection.md; docs/jenkins-local-setup.md (Jenkins PR); docs/live-verification.md. Also use the supplied DEVASC Project.pdf and REST API lab. All four documentation/setup PRs should be reviewed and merged before using repository-relative links as a final submission.'),
+        ('Jenkins build record / local links inside', 'https://github.com/FlimsyOwl12/DEVASC-Project/blob/main/docs/jenkins-evidence.md'),
+    ], 'Supporting local materials: docs/final-report.md and docs/test-results.md (final report PR); docs/demo-guide.md; docs/team-reflection.md; docs/jenkins-local-setup.md (Jenkins PR); docs/live-verification.md. Also use the supplied DEVASC Project.pdf and REST API lab. PRs #28/#30 are merged. Report PR #29, presentation PR #31 and shared handoff PR #32 still need review/merge. Build #5 verified main at c6d34d5; do not describe later documentation as already merged.'),
 ]
 
 
@@ -129,7 +130,7 @@ def build():
     deck.core_properties.last_modified_by = 'PalpakGPT'
     deck.core_properties.created = datetime(2026, 10, 18, tzinfo=timezone.utc)
     deck.core_properties.modified = datetime(2026, 10, 18, tzinfo=timezone.utc)
-    notes = ['# Suggested speaker notes — Activity 3/4\n', 'Review contribution statements and add real Jenkins build evidence before presenting.\n']
+    notes = ['# Suggested speaker notes — Activity 3/4\n', 'Review contribution statements and show the recorded Jenkins failure, recovery and final-main reports/screenshots before presenting.\n']
     for number, (kind, title, entries, narration) in enumerate(SLIDES, 1):
         slide = deck.slides.add_slide(deck.slide_layouts[6])
         slide.background.fill.solid()
@@ -165,7 +166,7 @@ def build():
                 card(slide,x,2.3,3.82,3.2)
                 text(slide,value,x+.25,2.7,3.3,1.2,64,TEAL,True)
                 text(slide,label,x+.25,4.2,3.25,1.0,21)
-            text(slide,'Merged-main CI passed; Jenkins execution is still required.',.8,6.0,11.8,.55,22,MUTED)
+            text(slide,'GitHub CI + Jenkins main build #5: all 69 tests passed.',.8,6.0,11.8,.55,22,MUTED)
         else:
             for index, (label, url) in enumerate(entries):
                 y=2.1+index*1.0

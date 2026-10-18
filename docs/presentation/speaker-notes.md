@@ -1,10 +1,10 @@
 # Suggested speaker notes — Activity 3/4
 
-Review contribution statements and add real Jenkins build evidence before presenting.
+Review contribution statements and show the recorded Jenkins failure, recovery and final-main reports/screenshots before presenting.
 
 ## Slide 1 — Routes you can read, choose and save
 
-Introduce the project as an enhancement of the supplied lab. This is a team project; do not claim that the group wrote the routing engine. Instructor scope approval and the required Jenkins evidence remain pending.
+Introduce the project as an enhancement of the supplied lab. This is a team project; do not claim that the group wrote the routing engine. Jenkins success, SCM triggering, failure/recovery and final-main build #5 are verified. Instructor scope/polling acceptance and actual team assessment remain pending.
 
 ## Slide 2 — What problem are we solving?
 
@@ -28,7 +28,7 @@ In the offline replay, show history viewing and TXT/CSV export after the initial
 
 ## Slide 7 — Verification we can reproduce
 
-Run python scripts/run_offline_tests.py. The runner clears the real key, disables dotenv loading and blocks unmocked HTTP/socket connections. Failure and empty discovery return nonzero status. Merged-main run: https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39121848255 .
+Run python scripts/run_offline_tests.py. The runner clears the real key, disables dotenv loading and blocks unmocked HTTP/socket connections. Failure and empty discovery return nonzero status. Merged-main run: https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39132132376 .
 
 ## Slide 8 — Live evidence is a separate record
 
@@ -40,7 +40,7 @@ The DRAFT records Justine Smith Rendaje as scrum leader, Wilhelm Ramesh Dimacisi
 
 ## Slide 10 — Activity 4: Jenkins is required
 
-Explain that GraphHopper provides routes while Jenkins tests the code. GitHub Actions is verified but supplementary. The local Jenkins package is prepared in a separate PR, not a running/verified service. Merge it, configure checkout credentials in Jenkins, run the job once and record real build evidence. Do not claim polling is a verified GitHub webhook.
+Jenkins 2.580.1 is running. Original #1 passed manually, and SCM polling started #2 automatically. On the separate demo job, #1 at bdd74ce failed exactly one intentional test; reverting only that test produced ed43bde and automatic Demo #2 passed 69 tests. After PRs #30/#28 merged, original build #5 checked out c6d34d5 and passed 69 tests in 0.486 seconds with its report archived. The original job targets main and the demo job is disabled with its history retained. Open the saved failure/recovery/main reports and screenshots. See docs/jenkins-evidence.md and handoff PR #32. Polling is verified; webhook delivery and instructor acceptance are not.
 
 ## Slide 11 — Limits and the final team handoff
 
@@ -48,4 +48,4 @@ Close by distinguishing implemented application features from unfinished course 
 
 ## Slide 12 — Evidence to open during questions
 
-Supporting local materials: docs/final-report.md and docs/test-results.md (final report PR); docs/demo-guide.md; docs/team-reflection.md; docs/jenkins-local-setup.md (Jenkins PR); docs/live-verification.md. Also use the supplied DEVASC Project.pdf and REST API lab. All four documentation/setup PRs should be reviewed and merged before using repository-relative links as a final submission.
+Supporting local materials: docs/final-report.md and docs/test-results.md (final report PR); docs/demo-guide.md; docs/team-reflection.md; docs/jenkins-local-setup.md (Jenkins PR); docs/live-verification.md. Also use the supplied DEVASC Project.pdf and REST API lab. PRs #28/#30 are merged. Report PR #29, presentation PR #31 and shared handoff PR #32 still need review/merge. Build #5 verified main at c6d34d5; do not describe later documentation as already merged.

@@ -28,7 +28,7 @@ It prints a newly created temporary directory. The files are not written into th
 4. Show the JSON export. Then show viewing history and exporting the same stored route to TXT and CSV. Only three mocked HTTP calls are used for the original route; history adds none.
 5. Run `python scripts/run_offline_tests.py` and show 69 passing tests. Open the actual merged-main GitHub run linked in the slides.
 6. Describe the historical October 14 live checks separately using `docs/live-verification.md`. If the team chooses to demonstrate the live app, run the ordinary CLI with its local key and allow for account/quota/network limits; do not display `.env` or credentials. No new live result is claimed by this guide.
-7. For Activity 4, show the Jenkinsfile stages and the required local setup PR/guide. Add real successful/failed Jenkins build and automatic-trigger evidence before claiming that the required Jenkins demonstration is complete. GitHub Actions evidence is supplementary.
+7. For Activity 4, show the Jenkinsfile stages and the saved real evidence: original #2 started automatically; Demo #1 at bdd74ce failed exactly one test out of 70; SCM-triggered Demo #2 at ed43bde recovered with all 69 passing; original #5 at c6d34d5 verified merged main with 69 passing tests. Reports were archived for each run. The demo job is disabled and the original job targets main. Local polling is verified, not webhook delivery; instructor acceptance remains pending. GitHub Actions evidence is supplementary.
 
 ## Questions to rehearse
 
@@ -45,7 +45,8 @@ It prints a newly created temporary directory. The files are not written into th
 - [x] Prepare an editable slide deck, PDF copy, speaker notes, and runnable offline demo.
 - [x] Include feature rationale, tests, actual GitHub/live evidence, limitations and remaining work.
 - [ ] Each member confirms their contribution statement and adds their actual challenge/lesson.
-- [ ] Record required Jenkins success/failure/recovery and automatic-trigger evidence.
+- [x] Record required Jenkins success/failure/recovery, automatic SCM triggering and final-main build #5; see [Jenkins evidence](jenkins-evidence.md).
+- [ ] Confirm the team has saved its screenshots/reports and obtain instructor acceptance of the local environment/SCM polling.
 - [ ] Rehearse with all speakers and confirm the allocated class time.
 - [ ] Present the application and record the actual presentation date.
 

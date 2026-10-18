@@ -5,7 +5,7 @@
 - `speaker-notes.md`: suggested narration and evidence links.
 - `build_deck.py`: source for the deck; edit its slide data and rebuild rather than treating exported slides as application source.
 
-The deck clearly distinguishes implemented/verified work from the required but unverified Jenkins environment and the team's unconfirmed personal contributions. Rehearse and complete those sections before presenting. These materials do not claim that a class presentation has occurred.
+The deck includes verified Jenkins manual/SCM success, the intentional failure, automatic recovery and final-main build #5 (69 passing tests). Instructor acceptance and the team's personal contribution/reflection statements remain unconfirmed. During rehearsal, show the actual saved reports/screenshots and complete the member sections before presenting. These materials do not claim that a class presentation has occurred.
 
 To rebuild, use a separate tooling environment with `python-pptx` installed (generated with version 1.0.2):
 

@@ -20,7 +20,7 @@ These roles are copied from the DRAFT tab. They do not prove who originally wrot
 - The 69-test suite passed locally, from a clean archive, and on Python 3.10/3.14 CI. Tests use dummy keys and mocked HTTP.
 - The October 14 live record includes car/bike/foot routes and a disconnected-route response, with no key/full request URL in the evidence.
 - PR #27 has an `LGTM!` comment recorded as `COMMENTED` and was merged October 18. Do not turn that record into an invented formal approval or meeting attendance record.
-- Jenkins is required; no configured Jenkins build has yet been observed for this project. GitHub Actions success does not satisfy that requirement on its own.
+- Required Jenkins execution is observed: original #1/#2 passed 69 tests, Demo #1 failed one intentional test, Demo #2 recovered automatically with 69 passing, and final-main #5 at c6d34d5 passed 69 tests with its report archived. The original job targets main and the demo job is disabled. These are technical facts; each member still supplies their own challenge/lesson. Instructor acceptance of polling remains pending.
 
 ## Member response form (complete individually)
 
@@ -46,8 +46,8 @@ Copy this form once for each member and answer in that person's own words. These
 | Completed Activity 3 rubric | No official rubric provided | Recorder obtains/fills actual rubric; members review |
 | Backlog | README issues; integration/backlog review PR | Team confirms owners, estimates and next iteration |
 | Activity 4 application changes on GitHub | PR #27 and merged feature history | Explain changes during presentation |
-| Activity 4 test cases / pipeline explanation | Test files; GitHub runs; Jenkinsfile; pipeline/setup guides | Execute required Jenkins job and record real builds |
-| Activity 4 presentation | CI/Jenkins slides and speaker notes | Add actual Jenkins evidence, rehearse, present |
+| Activity 4 test cases / pipeline explanation | Test files; GitHub runs; Jenkinsfile; manual/SCM success, Demo failure/recovery and final-main #5 | Present saved reports/screenshots; obtain instructor acceptance |
+| Activity 4 presentation | Refreshed CI/Jenkins slides and speaker notes with actual build results | Confirm saved screenshots/reports, rehearse and present |
 | Activity 4 rubric/reflection | This evidence map; pending official rubric | Complete from actual experience; no invented score |
 
 ## Official question/rubric transcription
