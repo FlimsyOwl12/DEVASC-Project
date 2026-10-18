@@ -2,7 +2,7 @@
 
 This is a **partial team project** based on the completed *Integrate a REST API in a Python Application* lab. The existing lab workflow is the starting point; selected enhancements are implemented while the remaining backlog is available for team members.
 
-The customer goal is to make a Python directions application easier to use: accept an origin, destination, and travel profile, then present distance, duration, and directions clearly. Proposed enhancements include choosing metric/imperial units and improving terminal output.
+The customer goal is to make a Python directions application easier to use: accept an origin, destination, and travel profile, then present distance, duration, and directions clearly. Implemented enhancements include metric/imperial units, clearer output, route exports, and location selection.
 
 ## Requirements and scope
 
@@ -10,7 +10,7 @@ The supplied **DEVASC Project.pdf**, Project Activity 3 (Social Coding), defines
 
 The guide refers to MapQuest. The supplied **Integrate a REST API in a Python Application** lab and the [reference repository](https://github.com/Cocoasaur/devasc-graphhopper-api) use **GraphHopper**, so this project follows that lab. Confirm this provider choice with the instructor when approving the scope.
 
-Activity 4 adds backlog development and automated testing/deployment. Activity 5 is a separate network automation activity; it is outside this routing starter. The guide describes eventual team deliverables, while this handoff implements only the baseline preparation requested for now.
+Activity 4 adds backlog development and automated testing/deployment. Activity 5 is a separate network automation activity; it is outside this routing starter. Application enhancements and verified automation are tracked below; instructor approvals and team assessment deliverables remain separate.
 
 ## Current status
 
@@ -20,7 +20,7 @@ Prepared for collaboration: environment-based API key configuration, dependency/
 
 **Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text. F7 adds local route exports in TXT, JSON, and CSV formats with sanitized filenames and duplicate protection. F8 adds interactive selection from up to five validated geocoding candidates. The CLI also provides a main navigation menu and session route history (storing up to 10 routes for offline viewing and exporting).
 
-**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Instructor approval, Jenkins environment verification, and the team presentation/rubric remain pending.
+**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Jenkins is required by the instructor (confirmed by the user on October 18). Local Jenkins success, automatic SCM detection, an isolated intentional failure and automatic recovery are verified with archived reports. Instructor acceptance and the team presentation/rubric remain pending.
 
 **Pending:** final team deliverables. No claim of final completion is made.
 
@@ -61,13 +61,34 @@ python labs/devnet-src/graphhopper/graphhopper_parse-json_7.py
 
 The [python-dotenv loader](https://bbc2.github.io/python-dotenv/) reads `.env` without executing it as a shell script. `.env.example` remains a template and is not loaded directly.
 
-Use the main menu (`1. Find a Route`, `2. View Route History`, `3. Export Previous Route`, `4. Exit`) to navigate. When finding a route, enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. When multiple geocoding candidates match a location, choose from the numbered candidate list (`1-5`), which shows latitude and longitude so same-name places can be distinguished, or use `R` to search again or `Q` to quit. After displaying a route, optionally export it to `exports/` as TXT, JSON, or CSV, or view/export any of the last 10 session routes from the main menu without additional API requests. Enter `q` or `quit` at any prompt to exit. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
+Use the main menu (`1. Find a Route`, `2. View Route History`, `3. Export Previous Route`, `4. Exit`) to navigate. When finding a route, enter `car`, `bike`, or `foot`, then choose `metric` or `imperial`, select `summary` or `detailed` output, and enter the two locations. When multiple geocoding candidates match a location, choose from the numbered candidate list (`1-5`), which shows latitude and longitude so same-name places can be distinguished, or use `R` to search again or `Q` to quit. After displaying a route, optionally export it to `exports/` as TXT, JSON, or CSV, or view/export any of the last 10 session routes from the main menu without additional API requests. Use menu option 4 or `q`/`quit` at the main menu to exit. In export/history-selection menus, `q`/`quit` cancels the operation and returns to the main menu. Actual profile availability, quotas, and route coverage must be checked with the team's API account.
 
 The earlier geocoding-only exercise is also included:
 
 ```bash
 python labs/devnet-src/graphhopper/graphhopper_parse-json_1.py
 ```
+
+## Local Jenkins instance
+
+Setup record — October 18, 2026:
+
+- **Jenkins URL:** `http://127.0.0.1:8080/`. The setup wizard is complete.
+- **Observed version:** Jenkins 2.580.1. The local `DEVASC-GraphHopper` job checks out the private repository and runs the offline suite.
+- This address is accessible on the computer hosting Jenkins; it is not a public team URL or GitHub webhook endpoint.
+
+- [x] Start the local Jenkins container and verify its web page responds.
+- [x] Reach the **Instance Configuration** step of the setup wizard.
+- [x] Save the instance URL and finish the wizard.
+- [x] Configure the `DEVASC-GraphHopper` Pipeline job and its private-repository checkout credential in Jenkins.
+- [x] Record [manual build #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper/1/): commit `001efafcb0abef8356c37cb3c75f8f92768b9673`, 69 tests passed, report archived, `SUCCESS`.
+- [x] Verify automatic detection through SCM polling: [build #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper/2/) checked out `21c323049e2d1b8061fa34bae1410aa95573d83e`, passed all 69 tests and archived the report. Its recorded cause is an SCM trigger, not a manual build or verified webhook.
+- [x] Prepare `demo/jenkins-failure-recovery` and separate-job [instructions in PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/blob/ci-jenkins-local-setup/docs/jenkins-failure-demo.md); its added test was verified locally to fail as intended.
+- [x] Run the separate Jenkins demonstration job: [Demo #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/1/) at `bdd74ce` ran 70 tests with exactly one intentional failure and archived the report.
+- [x] Revert only the demo test and verify automatic recovery: [Demo #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/2/) at `ed43bde` was SCM-triggered, passed all 69 original tests and archived the report (`SUCCESS`).
+- [ ] Save presentation screenshots/reports, then disable the demo job and remove the disposable branch after team review; do not merge its commits.
+
+Passwords, unlock values, tokens, and account details are not recorded in this README.
 
 ## Before pushing
 
@@ -91,7 +112,10 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `.github/workflows/offline-tests.yml` / `Jenkinsfile` | Automatic GitHub checks and the course Jenkins pipeline |
 | `docs/automated-checks.md` | F9 setup, test plan, evidence collection, and remaining Activity 4 deliverables |
 | `tests/test_offline_runner.py` | CI runner isolation and failure-reporting regression tests |
-| `docs/project-draft.md` | Draft project write-up for the shared Draft Document |
+| `docs/project-draft.md` | Local summary, refreshed by [report PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29) |
+| [Application report and results — PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29) | Features, setup, limitations, and observed verification evidence |
+| [Local Jenkins setup — PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/pull/30) | Required server/job setup, SCM polling, and build-evidence guide |
+| [Presentation/demo/reflection materials — PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31) | Editable slides/PDF, speaker notes, offline replay, and evidence worksheet |
 | `docs/live-verification.md` | F6 command, evidence checklist, and redaction guidance |
 | `tests/test_graphhopper_api.py` | Offline F5 tests for mocked HTTP, failures, timeouts, input, and no-key behavior |
 | `tests/test_graphhopper_cli.py` | Offline acceptance tests for F1/F2 |
@@ -103,9 +127,9 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 ## Team task checklist
 
-Checked items indicate completed work; unchecked items remain for the team. F7/F8 implementation is complete on this branch, while team review and merge remain pending in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27). Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
+Checked items indicate completed work; unchecked items remain for the team. F7/F8 were merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); issues #13/#14 are closed. The remaining integration work is confirming the team review record. Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; instructor/environment verification and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
+Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; required Jenkins verification and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
 
 ### Starter preparation
 
@@ -146,11 +170,11 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 
 ### Development status — F7/F8
 
-- [x] **F7 — Export route results** — P3: implementation complete; review and merge pending. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
+- [x] **F7 — Export route results** — P3: implemented and merged through PR #27. [Issue #13](https://github.com/FlimsyOwl12/DEVASC-Project/issues/13) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
   - [x] Export route summaries and directions in TXT, JSON, and CSV with the selected units and no API key.
   - [x] Validate filenames and paths; prevent silent overwrites and support choosing another filename or automatic renaming.
   - [x] Verify exports, formatting, duplicate handling, filesystem errors, and key redaction with offline tests.
-- [x] **F8 — Multiple geocoding candidates** — P3: implementation complete; review and merge pending. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
+- [x] **F8 — Multiple geocoding candidates** — P3: implemented and merged through PR #27. [Issue #14](https://github.com/FlimsyOwl12/DEVASC-Project/issues/14) [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27).
   - [x] Show up to five validated candidates and use the selected candidate's coordinates in routing.
   - [x] Handle invalid choices, search retry, and quitting; skip selection when only one valid candidate exists.
   - [x] Display latitude and longitude so candidates with identical names can be distinguished.
@@ -169,8 +193,12 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Implement GitHub Actions for pushes/PRs and supply the course Jenkinsfile.
   - [x] Run offline tests without a real key; block network calls, fail on test errors/empty discovery, and retain reports.
   - [x] Document test cases, pipeline functionality, and evidence collection.
+  - [x] Prepare the local Jenkins Docker/Compose package and five-minute SCM polling fallback in [PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/pull/30).
+  - [x] Configure local Jenkins and record successful manual build #1 with all 69 tests and an archived report.
+  - [x] Record automatic SCM-triggered build #2: all 69 tests passed and the report was archived.
+  - [x] Prepare Activity 4 presentation material in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31); add the recorded Jenkins results during team rehearsal and complete the rubric/reflection.
   - [x] Verify published GitHub checks: [PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385), and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) passed 42 tests on both Python 3.10 and 3.14.
-  - [ ] Confirm the CI demonstration environment with the instructor; configure and verify Jenkins if required.
+  - [x] Record actual failed/recovery builds on the separate demonstration job, with both reports archived; see [PR #30 evidence](https://github.com/FlimsyOwl12/DEVASC-Project/blob/ci-jenkins-local-setup/docs/jenkins-evidence.md).
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
 ### Integration, evidence, and submission
@@ -178,20 +206,33 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 - [ ] Review and merge each feature through a pull request, then update this checklist. [Issue #16](https://github.com/FlimsyOwl12/DEVASC-Project/issues/16)
   - [x] Merge the F1/F2/F3/F4 changes through PRs #21–#24 and the F9 pipeline implementation through PR #26.
   - [x] Open [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27) for F7/F8 and resolve the same-name candidate and tracked-cache findings.
-  - [ ] Obtain team review and merge PR #27; issues #13 and #14 are linked to close on merge.
-  - [ ] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
-- [ ] Record the final application's features, limitations, and test results. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17)
-- [ ] Prepare the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
+  - [x] Merge PR #27; issues #13 and #14 closed automatically.
+  - [ ] Confirm the team review record; GitHub shows an `LGTM!` comment, with review state `COMMENTED`.
+  - [x] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
+- [x] Prepare the application report and test-results summary in [PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29), covering features, setup, limitations and recorded evidence. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17). Review and merge the report PR before final submission.
+- [ ] Complete the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
+  - [x] Prepare the editable 12-slide deck, PDF, speaker notes and demo guide in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31).
+  - [x] Verify the synthetic offline demo: selected coordinates, imperial totals, TXT/JSON/CSV exports, and no extra HTTP for history.
+  - [ ] Confirm individual contributions, rehearse with the team, and deliver/record the actual presentation.
 - [ ] Complete the supplied team reflection questions and activity rubric using actual team experience. [Issue #19](https://github.com/FlimsyOwl12/DEVASC-Project/issues/19)
+  - [x] Prepare a factual evidence worksheet and member-response form in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31).
+  - [ ] Obtain the exact student questions/rubrics; the supplied instructor guide does not contain their full text.
+  - [ ] Each member supplies their own contribution, challenge and lesson; the recorder assembles the answers for member review.
 - [ ] Review the backlog and explicitly defer unfinished features. [Issue #20](https://github.com/FlimsyOwl12/DEVASC-Project/issues/20)
+  - [x] Prepare the [evidence-based backlog review](docs/backlog-review.md); F1–F8 are implemented and no longer deferred.
+  - [ ] Have the team confirm owners, estimates, scope, and the next iteration on its project board.
+
+Documentation/setup PRs #28–#31 are prepared for review; their files become part of `main` when each PR merges. Presentation delivery, member reflections, remaining Jenkins verification, and instructor decisions are not automatically completed by those merges.
 
 GitHub status follow-up: issues #3–#6 and #10–#11 are still open although their README entries are checked. Review their acceptance criteria and recorded evidence before closing them.
+
+The [backlog/integration review](docs/backlog-review.md) records merge evidence, completed cleanup, mandatory Jenkins work, and the remaining team decisions.
 
 ## Working together
 
 Agree on owners before coding. Use one separate branch per task with a short descriptive name, such as `f7-export-results` or `docs-readme-checklist`. Keep commits scoped to the task. Follow **branch → implementation → tests → PR → merge → delete the finished branch locally and on GitHub**. Describe the acceptance criteria and test evidence in the PR, and ask another member to review it.
 
-F1–F6 are complete. F7 exports and F8 candidate selection are implemented on `F7---F8-Donezo` and awaiting review and merge in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
+F1–F6 are complete. F7 exports and F8 candidate selection are merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); F9 now has pipeline code and a test plan; its remaining instructor/environment checks and team deliverables are listed above. Coordinate changes that affect the same functions and update the relevant README and issue checklists when a task is completed.
 
 Starter verification: both scripts passed syntax checks and nine temporary offline smoke checks passed using mocked HTTP responses. These covered missing-key startup, geocoding parameters, empty hits skipping routing, route coordinates/profile, HTTP errors and key redaction, a full mocked route and formatting, quit/blank input, timeout/invalid JSON recovery, and the initial geocoding script. The F5 committed test suite now preserves and expands that coverage with repeatable `unittest` tests.
 
