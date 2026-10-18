@@ -69,6 +69,22 @@ The earlier geocoding-only exercise is also included:
 python labs/devnet-src/graphhopper/graphhopper_parse-json_1.py
 ```
 
+## Local Jenkins instance
+
+Setup record — October 18, 2026:
+
+- **Jenkins URL:** `http://127.0.0.1:8080/`. Keep this value on the **Instance Configuration** screen for this local setup, then click **Save and Finish**.
+- **Observed version:** Jenkins 2.580.1. The Docker container is running and its local login page returned HTTP 200.
+- This address is accessible on the computer hosting Jenkins; it is not a public team URL or GitHub webhook endpoint.
+
+- [x] Start the local Jenkins container and verify its web page responds.
+- [x] Reach the **Instance Configuration** step of the setup wizard.
+- [ ] Save the instance URL and finish the wizard; this was still pending when the setup record was written.
+- [ ] Configure the `DEVASC-GraphHopper` Pipeline job and its private-repository checkout credential in Jenkins.
+- [ ] Record successful/failed builds and automatic commit-trigger evidence before completing F9.
+
+Passwords, unlock values, tokens, and account details are not recorded in this README.
+
 ## Before pushing
 
 Commit application files, `requirements.txt`, `.gitignore`, the placeholder-only `.env.example`, and project documentation. Keep `.env`, virtual environments, caches, local agent settings, credential files, and logs out of Git. These are excluded by `.gitignore`; avoid force-adding ignored files.
