@@ -20,7 +20,7 @@ Prepared for collaboration: environment-based API key configuration, dependency/
 
 **Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text. F7 adds local route exports in TXT, JSON, and CSV formats with sanitized filenames and duplicate protection. F8 adds interactive selection from up to five validated geocoding candidates. The CLI also provides a main navigation menu and session route history (storing up to 10 routes for offline viewing and exporting).
 
-**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Jenkins is required by the instructor (confirmed by the user on October 18). Jenkins execution, scope approval, and the team presentation/rubric remain pending.
+**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Jenkins is required by the instructor (confirmed by the user on October 18). Local Jenkins build #1 passed 69 tests; automatic detection, failure/recovery, scope approval, and the team presentation/rubric remain separate checks.
 
 **Pending:** final team deliverables. No claim of final completion is made.
 
@@ -73,15 +73,18 @@ python labs/devnet-src/graphhopper/graphhopper_parse-json_1.py
 
 Setup record — October 18, 2026:
 
-- **Jenkins URL:** `http://127.0.0.1:8080/`. Keep this value on the **Instance Configuration** screen for this local setup, then click **Save and Finish**.
-- **Observed version:** Jenkins 2.580.1. The Docker container is running and its local login page returned HTTP 200.
+- **Jenkins URL:** `http://127.0.0.1:8080/`. The setup wizard is complete.
+- **Observed version:** Jenkins 2.580.1. The local `DEVASC-GraphHopper` job checks out the private repository and runs the offline suite.
 - This address is accessible on the computer hosting Jenkins; it is not a public team URL or GitHub webhook endpoint.
 
 - [x] Start the local Jenkins container and verify its web page responds.
 - [x] Reach the **Instance Configuration** step of the setup wizard.
-- [ ] Save the instance URL and finish the wizard; this was still pending when the setup record was written.
-- [ ] Configure the `DEVASC-GraphHopper` Pipeline job and its private-repository checkout credential in Jenkins.
-- [ ] Record successful/failed builds and automatic commit-trigger evidence before completing F9.
+- [x] Save the instance URL and finish the wizard.
+- [x] Configure the `DEVASC-GraphHopper` Pipeline job and its private-repository checkout credential in Jenkins.
+- [x] Record [manual build #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper/1/): commit `001efafcb0abef8356c37cb3c75f8f92768b9673`, 69 tests passed, report archived, `SUCCESS`.
+- [ ] Verify automatic detection of a new pushed commit through SCM polling.
+- [x] Prepare `demo/jenkins-failure-recovery` and separate-job [instructions in PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/blob/ci-jenkins-local-setup/docs/jenkins-failure-demo.md); its added test was verified locally to fail as intended.
+- [ ] Run the separate Jenkins demonstration job, save its failure report, then revert the demo test and verify automatic successful recovery.
 
 Passwords, unlock values, tokens, and account details are not recorded in this README.
 
@@ -188,10 +191,11 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Implement GitHub Actions for pushes/PRs and supply the course Jenkinsfile.
   - [x] Run offline tests without a real key; block network calls, fail on test errors/empty discovery, and retain reports.
   - [x] Document test cases, pipeline functionality, and evidence collection.
-  - [x] Prepare the local Jenkins Docker/Compose package and five-minute SCM polling fallback in [PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/pull/30); no running build is claimed.
+  - [x] Prepare the local Jenkins Docker/Compose package and five-minute SCM polling fallback in [PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/pull/30).
+  - [x] Configure local Jenkins and record successful manual build #1 with all 69 tests and an archived report.
   - [x] Prepare Activity 4 presentation material in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31); actual Jenkins results and the team rubric/reflection are still required.
   - [x] Verify published GitHub checks: [PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385), and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) passed 42 tests on both Python 3.10 and 3.14.
-  - [ ] Configure and verify the required Jenkins pipeline: record successful/failed builds and a push-triggered build.
+  - [ ] Record SCM-triggered build evidence and actual failed/recovery builds on the separate demonstration job.
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
 ### Integration, evidence, and submission
@@ -215,7 +219,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Prepare the [evidence-based backlog review](docs/backlog-review.md); F1–F8 are implemented and no longer deferred.
   - [ ] Have the team confirm owners, estimates, scope, and the next iteration on its project board.
 
-Documentation/setup PRs #28–#31 are prepared for review; their files become part of `main` when each PR merges. Presentation delivery, member reflections, required Jenkins execution, and instructor decisions are not automatically completed by those merges.
+Documentation/setup PRs #28–#31 are prepared for review; their files become part of `main` when each PR merges. Presentation delivery, member reflections, remaining Jenkins verification, and instructor decisions are not automatically completed by those merges.
 
 GitHub status follow-up: issues #3–#6 and #10–#11 are still open although their README entries are checked. Review their acceptance criteria and recorded evidence before closing them.
 
