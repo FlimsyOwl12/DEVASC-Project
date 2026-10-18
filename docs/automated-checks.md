@@ -63,7 +63,8 @@ Local Jenkins 2.580.1 and the `DEVASC-GraphHopper` job are configured. Manual bu
 - [ ] Confirm the demonstration tool/environment with the instructor.
 - [x] Prepare a local Docker/Compose setup with Python/venv and the required Jenkins plugins.
 - [x] Configure the required Jenkins checkout/job and record successful manual build #1 (69 tests).
-- [ ] Record automatic commit detection and actual failed/recovery Jenkins builds.
+- [x] Record automatic commit detection: SCM polling started build #2 at `21c323049e2d1b8061fa34bae1410aa95573d83e`; all 69 tests passed and the report was archived.
+- [ ] Record actual failed/recovery Jenkins builds on the separate demonstration job.
 - [x] Record the PR and actual GitHub Actions results after publication (links above).
 - [ ] Prepare the Activity 4 presentation with actual evidence.
 - [ ] Complete the rubric and reflection using the team's own experience.

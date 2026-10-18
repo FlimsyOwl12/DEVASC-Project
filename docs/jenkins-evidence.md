@@ -23,8 +23,10 @@ The console's Git-installation advisory did not stop checkout: the default Git e
 
 - [x] Confirm the job targets `*/ci-jenkins-local-setup`.
 - [x] Confirm build #1 installed `pollSCM('H/5 * * * *')`.
-- [ ] Push this evidence update, then observe a new build started by an SCM change.
-- [ ] Record the build number, checked-out SHA, cause, result and archived report.
+- [x] Push the evidence update, then observe a new build started by an SCM change.
+- [x] Record the build number, checked-out SHA, cause, result and archived report.
+
+[Build #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper/2/) started automatically on October 18 at 20:40:12 Asia/Manila after the documentation push. Its recorded cause is `hudson.triggers.SCMTrigger$SCMTriggerCause` (serialized as `hudson.triggers.SCMTrigger_-SCMTriggerCause` in build metadata), and it checked out `21c323049e2d1b8061fa34bae1410aa95573d83e`. All 69 tests passed in 0.469 seconds, `test-results/unittest.txt` was archived, and the final result was `SUCCESS`. No manual build was requested for this check.
 
 Keep Jenkins running and do not use **Build Now** during this check. Polling checks about every five minutes; it is not a GitHub webhook delivery. Dependency installation still requires internet access.
 
