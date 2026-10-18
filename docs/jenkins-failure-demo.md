@@ -4,13 +4,15 @@ This demonstration uses a disposable `demo/jenkins-failure-recovery` branch. Its
 
 ## Run the failure in a separate job
 
-1. On the Jenkins dashboard, choose **New Item**, name it `DEVASC-GraphHopper-Demo`, and use **Copy from** `DEVASC-GraphHopper`.
+1. On the Jenkins dashboard, choose **New Item**, name it `DEVASC-GraphHopper-Demo`, and choose **Duplicate an existing item**, using `DEVASC-GraphHopper` as the source (older Jenkins screens label this **Copy from**).
 2. In the copied job's **Configure → Pipeline**, keep the existing repository and read-only checkout credential. Change **Branch Specifier** to `*/demo/jenkins-failure-recovery`. Keep **Script Path** `Jenkinsfile`, then save.
 3. Click **Build Now** once on this copied job. It must load its own Jenkinsfile before polling becomes active. Leave the original job pointed at the setup branch (or main after merging).
 4. Expect **Offline tests** to fail with `Intentional Jenkins demonstration failure; revert this demo commit to recover.` The suite should run 70 tests with exactly one failure. The post-build step should still archive `test-results/unittest.txt`.
 5. Save the copied job's build URL, exact commit, failed test and report. If checkout or dependencies fail first, fix that setup issue; it is not the intended test-failure evidence.
 
 ## Push recovery after observing the failed run
+
+For this team's October 18 demonstration, Demo build #1 verified the intended failure. Recovery commit `ed43bdee6e3b38954dd456286f9554297e79a2f1` was then pushed, and SCM polling automatically started Demo build #2, which passed all 69 tests and archived its report. The demonstration is complete; see the [recorded evidence](jenkins-evidence.md). Do not run a second revert on that recovery commit: it would restore the failing test. The commands below describe how to repeat the demonstration from its original failing commit.
 
 From a clean repository checkout, run:
 

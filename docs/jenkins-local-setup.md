@@ -2,7 +2,7 @@
 
 The instructor requires Jenkins (confirmed by the user on October 18, 2026). GraphHopper supplies routes; Jenkins checks code. A working GraphHopper key does not create a Jenkins project, and a passing GitHub Actions workflow does not replace the Jenkins requirement.
 
-The local environment is running and build #1 passed all 69 offline tests on October 18, 2026. Automatic commit detection and a controlled failure/recovery must be verified separately. Nothing here embeds a GraphHopper key, GitHub token, Jenkins password, or webhook secret.
+The local environment is running. On October 18, 2026, builds #1/#2 passed all 69 offline tests, including an automatic SCM-triggered build. A separate demo job also verified one intentional test failure followed by automatic successful recovery; see the [recorded evidence](jenkins-evidence.md). Instructor acceptance and team assessment deliverables remain pending. Nothing here embeds a GraphHopper key, GitHub token, Jenkins password, or webhook secret.
 
 ## Start the local service
 

@@ -32,12 +32,21 @@ Keep Jenkins running and do not use **Build Now** during this check. Polling che
 
 ## Controlled failure and recovery
 
-Use the [separate demonstration instructions](jenkins-failure-demo.md). A prepared failing commit is not evidence of a failed Jenkins build: the separate job must actually run it, archive its failure, and then run the recovery commit successfully. Do not merge the intentional failure into application branches or main.
+The separate `DEVASC-GraphHopper-Demo` job ran the disposable branch. [Demo build #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/1/) checked out `bdd74ce8de5b74a4cbeb4dfcabc881f0e5daeab6`, ran 70 tests in 0.477 seconds and failed exactly one test: `JenkinsFailureDemonstration.test_intentional_failure_for_jenkins_evidence`. The diagnostic was `Intentional Jenkins demonstration failure; revert this demo commit to recover.` Jenkins archived `test-results/unittest.txt`, propagated exit status 1 and finished `FAILURE` as intended.
+
+Recovery commit `ed43bdee6e3b38954dd456286f9554297e79a2f1` reverts only that demonstration test. All 69 original tests passed locally before this recovery was pushed. SCM polling automatically started [Demo build #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper-Demo/2/) on October 18 at 21:05:07 Asia/Manila. It checked out that exact recovery commit, passed 69 tests in 0.492 seconds, archived `test-results/unittest.txt` and finished `SUCCESS`. Build metadata records an SCM trigger cause; no manual recovery build was requested.
+
+| Demonstration | Commit | Tests | Result | Archived report |
+| --- | --- | --- | --- | --- |
+| Demo #1 — manual failure | `bdd74ce8de5b74a4cbeb4dfcabc881f0e5daeab6` | 70, exactly one intentional failure | FAILURE | Yes |
+| Demo #2 — automatic recovery | `ed43bdee6e3b38954dd456286f9554297e79a2f1` | 69, all passing | SUCCESS | Yes |
+
+The controlled Jenkins failure/recovery and automatic commit-detection checks are now verified. See the [demonstration instructions](jenkins-failure-demo.md); never merge the disposable demonstration commits into main. Keep the demo job and branch until the team has saved needed screenshots and reports. No cleanup or instructor acceptance is claimed here.
 
 ## Still required
 
-- [ ] Actual failed Jenkins build and diagnostic report.
-- [ ] Successful recovery on the same demonstration job.
+- [x] Actual failed Jenkins build and diagnostic report (Demo #1).
+- [x] Successful automatic recovery on the same demonstration job (Demo #2).
 - [ ] Instructor acceptance of the local environment and SCM polling, or a reachable webhook demonstration if required.
 - [ ] Team presentation, official rubric and each member's actual reflection.
 
