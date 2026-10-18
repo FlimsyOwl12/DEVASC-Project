@@ -165,7 +165,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
 
 ### Activity 4 — F9
 
-- [ ] **F9 — Automated checks (Activity 4)** — P2: pipeline implementation is ready; the complete Activity 4 acceptance checklist remains open. [Issue #15](https://github.com/FlimsyOwl12/DEVASC-Project/issues/15) [Pipeline setup and test plan](docs/automated-checks.md).
+- [ ] **F9 — Automated checks (Activity 4)** — P2: pipeline implementation is ready; the complete Activity 4 acceptance checklist remains open. [Issue #15](https://github.com/FlimsyOwl12/DEVASC-Project/issues/15) [Pipeline setup and test plan](docs/automated-checks.md). [Required local Jenkins setup](docs/jenkins-local-setup.md).
   - [x] Implement GitHub Actions for pushes/PRs and supply the course Jenkinsfile.
   - [x] Run offline tests without a real key; block network calls, fail on test errors/empty discovery, and retain reports.
   - [x] Document test cases, pipeline functionality, and evidence collection.

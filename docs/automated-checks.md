@@ -2,7 +2,7 @@
 
 ## What is implemented
 
-The project guide directs the team to use Jenkins and explore other CI/CD tools. This repository provides both a Jenkins pipeline and a GitHub Actions workflow. They run the same offline test command, so the team can demonstrate automated checks on GitHub while setting up the course Jenkins environment.
+The project guide directs the team to use Jenkins and explore other CI/CD tools. This repository provides both a Jenkins pipeline and a GitHub Actions workflow. They run the same offline test command. The user confirmed on October 18 that Jenkins is required; GitHub Actions is supplementary evidence and does not replace the required Jenkins execution. A [local setup package and guide](jenkins-local-setup.md) are provided.
 
 GitHub Actions runs on every branch push, on pull requests targeting `main`, and manually from the Actions page after the workflow reaches the default branch. It tests Python 3.10 (the supported minimum) and Python 3.14. Each job checks out the source, installs `requirements.txt`, runs the tests, and uploads the text report even when a test fails. A failed test returns a nonzero exit code, which makes the job and PR check fail. Dependency/setup failures also fail the job, but may occur before a test report exists.
 
@@ -47,13 +47,13 @@ Record the actual PR URL, commit SHA, successful run URL, date, and test results
 
 ## Set up Jenkins for the course
 
-No Jenkins server was available during implementation, so execution on Jenkins and webhook delivery remain to be verified by the team.
+No configured Jenkins server/job was confirmed during implementation. Jenkins execution and an automatic new-commit build remain required. The Jenkinsfile supports both `githubPush()` for a reachable server and five-minute SCM polling for local Jenkins; see the local setup guide.
 
 1. Use a dedicated Linux Jenkins agent with Python 3.10 or newer, `venv`, Git, and access to the dependency package index. The pipeline clears its Jenkins workspace before checkout and after the build; do not point it at a personal working folder.
 2. Install the Pipeline, Git, and GitHub plugins. Create a **Pipeline** job, choose **Pipeline script from SCM**, select this Git repository, set the branch to `*/main` (or the feature branch for verification), and set **Script Path** to `Jenkinsfile`. For this private repository, configure a read-only checkout credential in Jenkins, never in the repository.
 3. Run **Build Now** once to load the Jenkinsfile and its `githubPush()` trigger. Under the repository's webhook settings, configure a push webhook to `https://YOUR-JENKINS-HOST/github-webhook/` using the team's Jenkins/GitHub configuration. An administrator must configure and secure the reachable endpoint; do not commit webhook credentials.
 4. Push a new commit and check the webhook delivery and triggered build. The stages are **Checkout → Install dependencies → Offline tests**. The test command's exit status determines success/failure; **Archived Artifacts** retains the report even when tests fail.
-5. Record a successful build and a controlled failed build, including links and actual results. Confirm the instructor accepts the selected demonstration environment.
+5. Record a successful build and a controlled failed build, including links and actual results. Confirm the instructor accepts the actual Jenkins environment and trigger demonstration; local SCM polling is not a verified GitHub webhook.
 
 ## Activity 4 handoff checklist
 
@@ -61,7 +61,8 @@ No Jenkins server was available during implementation, so execution on Jenkins a
 - [x] Supply one offline command with failure exit codes and saved diagnostics.
 - [x] Document the test cases, pipeline stages, and GitHub evidence collection.
 - [ ] Confirm the demonstration tool/environment with the instructor.
-- [ ] Configure Jenkins checkout/webhook and record actual successful/failed builds if Jenkins is required.
+- [x] Prepare a local Docker/Compose setup with Python/venv and the required Jenkins plugins.
+- [ ] Configure the required Jenkins checkout/job and record successful/failed builds and automatic commit detection.
 - [x] Record the PR and actual GitHub Actions results after publication (links above).
 - [ ] Prepare the Activity 4 presentation with actual evidence.
 - [ ] Complete the rubric and reflection using the team's own experience.
