@@ -1,0 +1,44 @@
+module palpak-change-request {
+  yang-version 1.1;
+  namespace "urn:palpakgpt:activity5:change-request";
+  prefix pcr;
+  organization "PalpakGPT";
+  description
+    "Application request model. The Python adapter maps it to the router's
+     Cisco-IOS-XE-native YANG paths; this module is not installed on the router.";
+  revision 2026-10-18 {
+    description "Initial Activity 5 request model.";
+  }
+  container change-request {
+    leaf hostname {
+      type string {
+        length "1..63";
+        pattern '[A-Za-z]([A-Za-z0-9-]{0,61}[A-Za-z0-9])?';
+      }
+      mandatory true;
+    }
+    leaf interface-type {
+      type enumeration {
+        enum GigabitEthernet;
+        enum TenGigabitEthernet;
+        enum FastEthernet;
+        enum Ethernet;
+      }
+      mandatory true;
+    }
+    leaf interface-name {
+      type string { pattern '[0-9]+(/[0-9]+){0,3}(\.[0-9]+)?'; }
+      mandatory true;
+    }
+    leaf description {
+      type string { length "1..128"; }
+      mandatory true;
+    }
+    leaf loopback { type uint32 { range "0..2147483647"; } mandatory true; }
+    leaf ipv4 {
+      type string;
+      mandatory true;
+      description "IPv4 interface address with prefix; validated using Python ipaddress.";
+    }
+  }
+}
