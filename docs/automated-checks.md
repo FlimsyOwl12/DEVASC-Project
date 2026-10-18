@@ -18,7 +18,7 @@ After installing the normal application requirements in your virtual environment
 python scripts/run_offline_tests.py
 ```
 
-The command works from any directory. It clears `GRAPHHOPPER_API_KEY`, disables and mocks the dotenv loader before discovering tests, and blocks unmocked requests and socket connections. Existing tests can still supply dummy keys and mocked responses. Empty discovery and failed tests return exit status 1. The combined console/test output is saved to `test-results/unittest.txt`, which is ignored by Git along with `.venv-ci/`.
+The command works from any directory. It clears `GRAPHHOPPER_API_KEY` and NETCONF/WebEx environment values, disables and mocks the dotenv loader before discovering tests, and blocks unmocked requests and socket connections. Existing tests can still supply dummy keys and mocked responses. Empty discovery and failed tests return exit status 1. The combined console/test output is saved to `test-results/unittest.txt`, which is ignored by Git along with `.venv-ci/`.
 
 ## Test plan and cases
 
@@ -31,9 +31,16 @@ The command works from any directory. It clears `GRAPHHOPPER_API_KEY`, disables 
 | `tests/test_graphhopper_exports.py` | TXT/JSON/CSV exports, metric/imperial consistency, direction preservation, path traversal protection, duplicate handling, and key redaction |
 | `tests/test_graphhopper_geocoding_candidates.py` | Multiple candidate display (including coordinates for identical names), selected candidate coordinates in routing, invalid selections, retry/quit, and malformed candidate filtering |
 | `tests/test_graphhopper_history_menu.py` | Main menu navigation, 10-route session history cap, failed route exclusion, and history view/export without network requests |
+| `tests/test_network_automation.py` | Request validation, native XML/redaction, stale previews, lock/edit/readback, safe failures, notification-only retry, CLI confirmation and secure client settings |
 | `tests/test_offline_runner.py` | Subprocess checks for credential isolation, disabled dotenv loading, usable mocks, blocked connections, failed tests and empty discovery |
 
-The suite contains 69 tests. The runner's regression tests create temporary miniature projects and deliberately exercise success/failure paths; expected fixture failures do not make the real suite fail. They never need a real API key or network request.
+The current suite contains 100 tests: 69 routing/runner cases and 31 Activity 5 cases. Historic reports below retain the counts for their recorded commits. The runner's regression tests create temporary miniature projects and deliberately exercise success/failure paths; expected fixture failures do not make the real suite fail. They never need a real API key or network request.
+
+## Activity 5 protocol and model checks
+
+A separate GitHub matrix job validates the request YANG model with pyang and runs `scripts/verify_activity5_transport.py` on Python 3.10 and 3.14. Install `requirements-network-dev.txt` to reproduce these optional checks. The protocol fixture opens a loopback socket and uses the real ncclient with a pinned ephemeral SSH key. Its device and message remain simulated. It runs separately because the unittest runner blocks sockets.
+
+The Jenkinsfile continues to run the shared offline command. After this branch is merged, a new main build should report 100 tests. Earlier 69-test Jenkins reports are evidence for their earlier source and must not be relabelled.
 
 ## View GitHub evidence
 

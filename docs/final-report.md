@@ -6,7 +6,7 @@ Prepared October 18, 2026 for PalpakGPT. Verified main baseline: `c6d34d534dcfd3
 
 The team chose to improve the Python directions application from the *Integrate a REST API in a Python Application* lab. A user needs to choose the intended places, read route information in familiar units, and save a route without having to inspect JSON. The supplied lab and reference repository use GraphHopper. The instructor guide mentions MapQuest; confirmation of GraphHopper as the project provider is still tracked in issue #2.
 
-Python makes HTTPS GET requests to GraphHopper's geocoding and routing endpoints, validates JSON responses, and displays the route in a terminal. This is an enhancement of the supplied lab, rather than an independently implemented routing engine. Activity 5 network automation is outside this project's scope.
+Python makes HTTPS GET requests to GraphHopper's geocoding and routing endpoints, validates JSON responses, and displays the route in a terminal. This is an enhancement of the supplied lab, rather than an independently implemented routing engine. Activity 5 is implemented in a separate `network_automation/` package; see the [implementation guide](activity5-implementation.md). This routing report retains the historical routing/Jenkins results. The new package has local simulated/protocol validation; real device and WebEx evidence remain pending.
 
 ## Implemented features
 
@@ -68,7 +68,7 @@ Menu / profile / units / output mode
 
 ## Verification and evidence
 
-The [test-results summary](test-results.md) records 69 passing offline tests and links to actual GitHub runs on Python 3.10 and 3.14, including the merged-main run. A clean Git archive also passed 69 tests, confirming that tracked cache files are unnecessary. The local October 18 verification used the same network-blocked runner.
+The [test-results summary](test-results.md) records the original 69 passing offline tests and links to actual GitHub runs on Python 3.10 and 3.14, including the merged-main run. A clean Git archive also passed 69 tests, confirming that tracked cache files are unnecessary. The local October 18 verification used the same network-blocked runner.
 
 ```bash
 python scripts/run_offline_tests.py

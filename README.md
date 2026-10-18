@@ -10,7 +10,7 @@ The supplied **DEVASC Project.pdf**, Project Activity 3 (Social Coding), defines
 
 The guide refers to MapQuest. The supplied **Integrate a REST API in a Python Application** lab and the [reference repository](https://github.com/Cocoasaur/devasc-graphhopper-api) use **GraphHopper**, so this project follows that lab. Confirm this provider choice with the instructor when approving the scope.
 
-Activity 4 adds backlog development and automated testing/deployment. Activity 5 is a separate network automation activity; it is outside this routing starter. Application enhancements and verified automation are tracked below; instructor approvals and team assessment deliverables remain separate.
+Activity 4 adds backlog development and automated testing/deployment. Activity 5 is implemented separately in `network_automation/`: a terminal chatbot for Cisco IOS XE NETCONF changes and outbound WebEx updates. Its no-account demonstration is simulated; actual router changes and room delivery still need live access. Application enhancements and verified automation are tracked below; instructor approvals and team assessment deliverables remain separate.
 
 ## Current status
 
@@ -92,6 +92,20 @@ Setup record — October 18, 2026:
 
 Passwords, unlock values, tokens, and account details are not recorded in this README.
 
+## Activity 5 — network automation
+
+The Python chatbot retrieves running-config, previews three changes, applies them through NETCONF, reads the result back and sends a WebEx update after verification. It changes the hostname, an existing interface description and a lab loopback IPv4 address. The program also save redacted before/after XML and a result manifest. This adapter requires Cisco IOS XE's native YANG model, writable running and rollback-on-error.
+
+Try the complete simulated workflow with the normal application dependencies; no router, token or GraphHopper key is needed:
+
+```bash
+python -m network_automation --demo --run-example
+```
+
+Use `python -m network_automation --demo` for interactive commands. For a live lab, install `requirements-network.txt`, configure private NETCONF/WebEx values and trust the device's verified SSH host key. Follow the [Activity 5 implementation and setup guide](docs/activity5-implementation.md). WebEx is an outbound notification channel; the chatbot runs in the terminal.
+
+Generated evidence is private and ignored under `activity5-evidence/`. Simulation results remain labelled **SIMULATED**. The user has no WebEx account/room/access yet, and no live NETCONF device was supplied. The implementation and local protocol fixture do not establish that actual course device changes or message delivery occurred.
+
 ## Before pushing
 
 Commit application files, `requirements.txt`, `.gitignore`, the placeholder-only `.env.example`, and project documentation. Keep `.env`, virtual environments, caches, local agent settings, credential files, and logs out of Git. These are excluded by `.gitignore`; avoid force-adding ignored files.
@@ -113,6 +127,9 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 | `scripts/run_offline_tests.py` | Shared credential-free, network-blocked CI test command |
 | `.github/workflows/offline-tests.yml` / `Jenkinsfile` | Automatic GitHub checks and the course Jenkins pipeline |
 | `docs/automated-checks.md` | F9 setup, test plan, evidence collection, and remaining Activity 4 deliverables |
+| `network_automation/` / `requirements-network.txt` | Activity 5 terminal chatbot, live IOS XE adapter, isolated simulator and request YANG model |
+| `tests/test_network_automation.py` / `scripts/verify_activity5_transport.py` | Offline behavior tests and optional local SSH/NETCONF interoperability fixture |
+| `docs/activity5-implementation.md` | Activity 5 setup, commands, transaction behavior and remaining live evidence |
 | `tests/test_offline_runner.py` | CI runner isolation and failure-reporting regression tests |
 | `docs/project-draft.md` | Local summary, refreshed by [report PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29) |
 | [Application report and results — PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29) | Features, setup, limitations, and observed verification evidence |
@@ -131,7 +148,7 @@ Review `git status --short` and `git diff --cached --name-only` before each comm
 
 Checked items indicate completed work; unchecked items remain for the team. F7/F8 were merged in [PR #27](https://github.com/FlimsyOwl12/DEVASC-Project/pull/27); issues #13/#14 are closed. The remaining integration work is confirming the team review record. Record owners and estimates in the linked issues. Suggested work areas describe the type of contribution and do not assign a person. P1 = first sprint, P2 = after the core enhancements, P3 = optional/deferred.
 
-Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; Jenkins success, automatic polling, intentional failure, recovery and the final merged-main build are verified. Instructor acceptance of the local environment/polling and the Activity 4 presentation/rubric remain open. The current offline suite has 69 tests, including a regression check for same-name candidates, selected routing coordinates, and key redaction. F6 live results are recorded in `docs/live-verification.md`.
+Status updated October 18, 2026: starter preparation, offline verification, GitHub publication, and task-issue creation are complete. Issue links are included below. F1 unit selection, F2 clearer output, F3 summary/detail selection, F4 response validation, F5 offline unit tests, F6 live verification, F7 route exports, F8 multiple geocoding candidates, main menu navigation, and session route history are complete. F9 pipeline code and documentation are implemented; Jenkins success, automatic polling, intentional failure, recovery and the final merged-main build are verified. Instructor acceptance of the local environment/polling and the Activity 4 presentation/rubric remain open. The current offline suite has 100 tests: 69 routing/runner cases and 31 Activity 5 cases. The routing cases include same-name candidates, selected coordinates and key redaction. Earlier Jenkins reports correctly retain their original 69-test counts. F6 live results are recorded in `docs/live-verification.md`.
 
 ### Starter preparation
 
@@ -204,6 +221,21 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [ ] Obtain instructor acceptance of the local Jenkins environment and SCM polling, or demonstrate a reachable webhook if required.
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
+### Activity 5 — implementation and evidence
+
+- [x] Implement `show`, `change`, `apply`, `notify`, `schema`, `cancel` and `quit` in a terminal chatbot.
+- [x] Add validated requests, the request YANG model and Cisco native-model payload mapping.
+- [x] Preview and confirm all three changes; lock running, reject stale plans, edit once and verify readback.
+- [x] Save redacted configuration/evidence and keep device verification separate from notification status.
+- [x] Implement WebEx Messages API delivery and notification-only retry without reapplying device changes.
+- [x] Verify the no-account simulation, 31 offline cases, pyang model validation and real SSH/NETCONF against a loopback-only simulated device.
+- [x] Add separate Python 3.10/3.14 protocol/model CI jobs; the shared offline suite contains 100 tests.
+- [x] Publish four scoped implementation/test/CI/documentation commits and open [PR #33](https://github.com/FlimsyOwl12/DEVASC-Project/pull/33). [Python 3.10/3.14 checks passed](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/39141681773), including all 100 tests and the protocol/model jobs.
+- [ ] Have another team member review and merge PR #33, then delete its implementation branch.
+- [ ] Supply an authorized IOS XE lab, verify the actual current/new configuration and retain evidence of all three changes.
+- [ ] Obtain WebEx room/API access and retain a delivered message reference, or record the instructor's explicit deferral.
+- [ ] Rehearse/present Activity 5 and complete the actual class rubric using the live results.
+
 ### Integration, evidence, and submission
 
 - [ ] Review and merge each feature through a pull request, then update this checklist. [Issue #16](https://github.com/FlimsyOwl12/DEVASC-Project/issues/16)
@@ -213,7 +245,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Merge Jenkins PR #30 (`5bb38bb`) and checklist PR #28 (`c6d34d5`); GitHub checks passed and Jenkins verified merged main.
   - [ ] Confirm the team review record; GitHub shows an `LGTM!` comment, with review state `COMMENTED`.
   - [x] Delete `F7---F8-Donezo` locally and on GitHub after merging, and synchronize local `main`.
-- [x] Prepare the application report and test-results summary in [PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29), covering features, setup, limitations and recorded evidence. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17). Review and merge the report PR before final submission.
+- [x] Prepare the application report and test-results summary in [PR #29](https://github.com/FlimsyOwl12/DEVASC-Project/pull/29), covering features, setup, limitations and recorded evidence. [Issue #17](https://github.com/FlimsyOwl12/DEVASC-Project/issues/17). The report PR is merged; confirm the final submission contents with the team.
 - [ ] Complete the Activity 3 overview presentation and application demonstration. [Issue #18](https://github.com/FlimsyOwl12/DEVASC-Project/issues/18)
   - [x] Prepare the editable 12-slide deck, PDF, speaker notes and demo guide in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31).
   - [x] Verify the synthetic offline demo: selected coordinates, imperial totals, TXT/JSON/CSV exports, and no extra HTTP for history.
@@ -226,7 +258,7 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Prepare the [evidence-based backlog review](docs/backlog-review.md); F1–F8 are implemented and no longer deferred.
   - [ ] Have the team confirm owners, estimates, scope, and the next iteration on its project board.
 
-PRs #28 and #30 are merged. Report PR #29 and presentation PR #31 remain open for team review, with refreshed Jenkins evidence. Presentation delivery, member reflections and instructor decisions are still outstanding. Activity 5 is a separate network-automation plan in the shared DRAFT, not implemented in this routing repository.
+PRs #28–#32 are merged, including the report, presentation and Jenkins handoff. Presentation delivery, member reflections and instructor decisions are still outstanding. Activity 5 code and local validation are implemented on the separate `activity5-netconf-automation` branch; live device/WebEx evidence remains outstanding.
 
 Status reconciliation: issues #10/#11 are closed on the permanent 69-test suite and the October 14 live record. Issues #3–#6 remain open for feature ownership, meeting/deadline clarification, estimates/budget and board confirmation. Their README entries are left unchecked until those criteria are met.
 
@@ -248,7 +280,7 @@ python scripts/run_offline_tests.py
 
 Configuration fix verified: six additional offline checks covered `.env` loading from another working directory, exported-key precedence, and missing configuration for both scripts. Startup with the project's saved `.env` key now reaches the travel-profile prompt; no network request was made during that startup check. This confirms key loading, not GraphHopper's acceptance of the key.
 
-Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The application tests cover F1/F2/F3/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. F3 coverage includes summary totals without directions, numbered detailed output in both units, mode validation, quitting without HTTP requests, and changing modes between mocked routes. The four F9 runner regression tests verify isolation, failure reporting, blocked HTTP, and empty discovery. F7/F8 export, candidate-selection, and history tests bring the current suite to 69 tests, including the same-name candidate regression. See `docs/automated-checks.md` for CI setup and remaining Activity 4 work. F7 and F8 share PR #27. Keep commits scoped and delete finished implementation branches after merging.
+Live API verification with the team key succeeded on October 14, 2026; see `docs/live-verification.md` for the redacted evidence. F6 live verification can be rerun with `python labs/devnet-src/graphhopper/graphhopper_live_verify.py`. F4 validates object/list structure, coordinate ranges, place names, finite nonnegative route totals, and instruction fields before display. Invalid replies return to the prompt without routing with missing coordinates or exposing credentials. The application tests cover F1/F2/F3/F4/F5, including HTTP 401/429/server errors, timeouts, invalid JSON, malformed schemas, blank input, quit behavior, no-key execution, and routing skipped after bad geocoding. F3 coverage includes summary totals without directions, numbered detailed output in both units, mode validation, quitting without HTTP requests, and changing modes between mocked routes. The four F9 runner regression tests verify isolation, failure reporting, blocked HTTP, and empty discovery. F7/F8 export, candidate-selection, and history tests bring routing/runner coverage to 69 tests, including the same-name candidate regression. Activity 5 adds 31 cases, bringing the current suite to 100. See `docs/automated-checks.md` for CI setup and remaining Activity 4 work. F7 and F8 share PR #27. Keep commits scoped and delete finished implementation branches after merging.
 
 ## References
 

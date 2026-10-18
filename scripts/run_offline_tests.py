@@ -30,6 +30,8 @@ def block_network(*args, **kwargs):
 
 
 def main():
+    if str(ROOT) not in sys.path:
+        sys.path.insert(0, str(ROOT))
     report_dir = ROOT / "test-results"
     report_dir.mkdir(exist_ok=True)
     with (report_dir / "unittest.txt").open("w", encoding="utf-8") as report:
@@ -40,6 +42,8 @@ def main():
             stack.enter_context(patch.dict(os.environ, {
                 "GRAPHHOPPER_API_KEY": "",
                 "PYTHON_DOTENV_DISABLED": "1",
+                "NETCONF_HOST": "", "NETCONF_USERNAME": "", "NETCONF_PASSWORD": "",
+                "WEBEX_ACCESS_TOKEN": "", "WEBEX_ROOM_ID": "",
             }))
             stack.enter_context(patch("dotenv.load_dotenv", return_value=False))
             # Guard discovery as well as execution. Tests may still mock requests.get.

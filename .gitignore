@@ -22,3 +22,6 @@ htmlcov/
 credentials*.json
 service-account*.json
 *.log
+
+# Private Activity 5 device/configuration/notification evidence.
+/activity5-evidence/

@@ -1,0 +1,3 @@
+# Optional protocol/model verification tooling; not required by the routing app.
+-r requirements-network.txt
+pyang>=2.7,<3

@@ -1,0 +1,3 @@
+# Optional live Activity 5 client; the routing app/offline tests do not need ncclient.
+-r requirements.txt
+ncclient>=0.7.0,<0.8
