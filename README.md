@@ -20,7 +20,7 @@ Prepared for collaboration: environment-based API key configuration, dependency/
 
 **Implemented enhancements:** F1 adds metric or imperial unit selection for all distances. F2 adds an aligned plain-text route summary and numbered directions. F3 lets users choose a summary-only view or full directions for each route. F4 validates geocoding/routing response structure and numeric fields, reports malformed replies without a traceback, and keeps credentials out of displayed response text. F7 adds local route exports in TXT, JSON, and CSV formats with sanitized filenames and duplicate protection. F8 adds interactive selection from up to five validated geocoding candidates. The CLI also provides a main navigation menu and session route history (storing up to 10 routes for offline viewing and exporting).
 
-**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Jenkins is required by the instructor (confirmed by the user on October 18). Local Jenkins build #1 passed 69 tests; automatic detection, failure/recovery, scope approval, and the team presentation/rubric remain separate checks.
+**F9 automation implemented:** GitHub Actions and Jenkins run a shared offline test command with saved reports. See [Activity 4 pipeline setup and test plan](docs/automated-checks.md). Jenkins is required by the instructor (confirmed by the user on October 18). Local Jenkins builds #1 and #2 passed 69 tests, including automatic SCM detection in #2. Failure/recovery, instructor acceptance, and the team presentation/rubric remain pending.
 
 **Pending:** final team deliverables. No claim of final completion is made.
 
@@ -82,7 +82,7 @@ Setup record — October 18, 2026:
 - [x] Save the instance URL and finish the wizard.
 - [x] Configure the `DEVASC-GraphHopper` Pipeline job and its private-repository checkout credential in Jenkins.
 - [x] Record [manual build #1](http://127.0.0.1:8080/job/DEVASC-GraphHopper/1/): commit `001efafcb0abef8356c37cb3c75f8f92768b9673`, 69 tests passed, report archived, `SUCCESS`.
-- [ ] Verify automatic detection of a new pushed commit through SCM polling.
+- [x] Verify automatic detection through SCM polling: [build #2](http://127.0.0.1:8080/job/DEVASC-GraphHopper/2/) checked out `21c323049e2d1b8061fa34bae1410aa95573d83e`, passed all 69 tests and archived the report. Its recorded cause is an SCM trigger, not a manual build or verified webhook.
 - [x] Prepare `demo/jenkins-failure-recovery` and separate-job [instructions in PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/blob/ci-jenkins-local-setup/docs/jenkins-failure-demo.md); its added test was verified locally to fail as intended.
 - [ ] Run the separate Jenkins demonstration job, save its failure report, then revert the demo test and verify automatic successful recovery.
 
@@ -193,9 +193,10 @@ Status updated October 18, 2026: starter preparation, offline verification, GitH
   - [x] Document test cases, pipeline functionality, and evidence collection.
   - [x] Prepare the local Jenkins Docker/Compose package and five-minute SCM polling fallback in [PR #30](https://github.com/FlimsyOwl12/DEVASC-Project/pull/30).
   - [x] Configure local Jenkins and record successful manual build #1 with all 69 tests and an archived report.
+  - [x] Record automatic SCM-triggered build #2: all 69 tests passed and the report was archived.
   - [x] Prepare Activity 4 presentation material in [PR #31](https://github.com/FlimsyOwl12/DEVASC-Project/pull/31); actual Jenkins results and the team rubric/reflection are still required.
   - [x] Verify published GitHub checks: [PR #26](https://github.com/FlimsyOwl12/DEVASC-Project/pull/26), [push run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742491385), and [PR run](https://github.com/FlimsyOwl12/DEVASC-Project/actions/runs/38742542685) passed 42 tests on both Python 3.10 and 3.14.
-  - [ ] Record SCM-triggered build evidence and actual failed/recovery builds on the separate demonstration job.
+  - [ ] Record actual failed/recovery builds on the separate demonstration job.
   - [ ] Prepare the Activity 4 presentation and complete the team rubric/reflection.
 
 ### Integration, evidence, and submission
